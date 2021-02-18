@@ -1,0 +1,71 @@
+{% extends "base_layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% block title %} HOME {% endblock %} 
+  {% block head %} 
+  {{ block.super }} 
+  {% endblock %} 
+  {% block mid_page_content %}
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <form action="/home/sample_up/" method="POST" id="submit">
+          {% csrf_token %}
+          <input
+            type="text"
+            class="form-control"
+            placeholder="UserName"
+            id="sup"
+            name="sup"
+          />
+          <input type="submit" class="btn btn-primary" id="submit" />
+        </form>
+      </div>
+
+      <div class="row">
+      <form>
+        <div class="custom-control custom-checkbox">
+          <div class="col"> 
+          <input type="checkbox" class="custom-control-input" id="Genre_Pop_Checkbox" name="Genre_Pop_Checkbox">
+          <label class="custom-control-label" for="Genre_Pop_Checkbox">Pop</label>
+          </div><div class="col"> 
+          <input type="checkbox" class="custom-control-input" id="Genre_Rock_Checkbox" name="Genre_Rock_Checkbox">
+          <label class="custom-control-label" for="Genre_Rock_Checkbox">Rock</label>
+          </div><div class="col"> 
+          <input type="checkbox" class="custom-control-input" id="Genre_Dance_Checkbox" name="Genre_Dance_Checkbox">
+          <label class="custom-control-label" for="Genre_Dance_Checkbox">Dance</label>
+          </div><div class="col"> 
+          <input type="checkbox" class="custom-control-input" id="Genre_Country_Checkbox" name="Genre_Country_Checkbox">
+          <label class="custom-control-label" for="Genre_Country_Checkbox">Country</label>
+          <input type="submit" class="btn btn-primary" id="submit_checkbox" />
+          </div>
+        </div>
+      </form>
+      </div>
+
+    </div>
+    <div class="col">
+      <div class="table-responsive" style="height: 800px; overflow: auto">
+        <table
+          class="table table-fixed table-dark table-hover table-striped table-borderless"
+        >
+          <thead style="position: sticky; top: 0" class="thead-dark">
+            <tr>
+              <th class="header" scope="col">Genre</th>
+              <th class="header" scope="col">Occurence</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for key,value in GenreDict.items %}
+            <tr>
+              <td>{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endblock %} {% block footer %} {{ block.super }} {% endblock %}
+</html>
