@@ -36,7 +36,7 @@
             <h3>--Add picture/text to show that a recommendation hasnt been made yet.--</h3>
           {% elif request.session.tracklist|length > 0 %}
           <div class="row justify-content-center">
-            {% for trackID in request.session.tracklist.0 %}
+            {% for trackID in request.session.tracklist %}
               <div class = "p-2" id="spotify_player"><iframe src="https://open.spotify.com/embed/track/{{trackID}}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></div>
             {% endfor %}
             </div>

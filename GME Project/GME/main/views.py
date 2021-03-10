@@ -56,9 +56,8 @@ def logout(request):
 ###################################################################################################
 
 def anon_genre_submit(request):
-    if request.method == 'POST':
-        request.session['tracklist'] = sp.get_recommended(request.POST.getlist('genre'))
-
+    request.session['tracklist'] = sp.get_recommended(request.POST.getlist('genre'))
+    print(request.session['tracklist'])
     return render(request, 'home.html')
         
 
