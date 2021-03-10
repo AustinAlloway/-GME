@@ -1,0 +1,60 @@
+{% extends "base_layout.html" %}
+
+  {% block body_content %}
+  <div class="row justify-content-center">
+    <div class="col-3">
+    <div class="d-flex p-2 justify-content-center">
+        <form  action="/home/anon_genre_submit/" method="POST">
+          {% csrf_token %}
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="country_check" name="genre" value="country">
+              <label class="custom-control-label" for="country_check">Country</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="hiphop_rb_check" name="genre" value="hiphop_rb">
+              <label class="custom-control-label" for="hiphop_rb_check">Hip Hop & RnB</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="dance_check" name="genre" value="dance">
+              <label class="custom-control-label" for="dance_check">Dance</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="alt_check" name="genre" value="alt">
+              <label class="custom-control-label" for="alt_check">Alternative</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="pop_check" name="genre" value="pop">
+              <label class="custom-control-label" for="pop_check">Pop</label>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="form.submit()">Get Recommended</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-6 container-fluid">
+      <div class="d-flex justify-content-center" id ="middle-flex">
+          {% if request.session.tracklist|length <= 0 %}
+            <h3>--Add picture/text to show that a recommendation hasnt been made yet.--</h3>
+          {% elif request.session.tracklist|length > 0 %}
+          <div class="row justify-content-center">
+            {% for trackID in request.session.tracklist.0 %}
+              <div class = "p-2" id="spotify_player"><iframe src="https://open.spotify.com/embed/track/{{trackID}}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></div>
+            {% endfor %}
+            </div>
+          {% endif %}
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="d-flex flex-row justify-content-center">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+

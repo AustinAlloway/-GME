@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <title>{% block title %}$GME{% endblock %}</title>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <!-- Script Import List -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+    <div class="jumbotron jumbotron-fluid justify-content-center" id="jumbotron_banner">
+    </div>
+    <!-- MAKE PRETTY SECTION -->
+    {% block head %}
+    
+    {% endblock %}
+  </head>
+
+  <body>
+    <div class="row justify-content-center" id="signin_navbar_row">
+        <div class="d-flex mx-auto" id="navbar_signin_flex">
+          {% if 'profile' not in request.session %}
+          <div class="col-3 mx-auto" id="signin_col">
+            <div class="d-flex-column justify-content-center" id="signin_flexbox">
+                <div class="btn-group">
+                  <a role="button" class="btn btn-outline-light" href="/home/login/">Log in w/ Spotify</a>
+                  <a role="button" class="btn btn-outline-light" href="https://www.spotify.com/us/signup/" target="_blank">Sign Up w/ Spotify</a>
+                </div>
+              </div>
+          </div>
+          {% else %}
+            {{request.session.profile.disply_id}}
+            <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_thumb"/>
+            <div class="d-flex" id="pro_log">
+                <form action="/home/logout/" method="POST">
+                  {% csrf_token %}
+                    <div class="btn-group">
+                    <a class="btn btn-outline-light" role="button" href="/home/">Profile</a>
+                    <button type="button" class="btn btn-outline-light" onclick="form.submit()">Logout</button>
+                  </div>
+                </form>
+            </div>
+          {% endif %}
+          <div class="col-9 mx-auto" id="navbar_col">
+            <div class="d-flex justify-content-end " id="navbar_flexbox">
+              <div class="btn-group" id="nav_btn_group">
+                  <a class="btn btn-outline-light" id="navbutton" role="button" href="/home/">Home Page</a>
+                  <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/home/">Match Making</a>
+                  <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/home/">Listening Party</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  {% block body_content %}
+
+  {% endblock %}
+
+
+  </body>
+
+
+  <footer>
+  </footer>
+</html>
