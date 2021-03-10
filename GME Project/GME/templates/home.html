@@ -2,32 +2,38 @@
 
   {% block body_content %}
   <div class="row justify-content-center">
-    <div class="col-3">
+    <div class="col-2">
     <div class="d-flex p-2 justify-content-center">
-        <form  action="/home/anon_genre_submit/" method="POST">
-          {% csrf_token %}
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="country_check" name="genre" value="country">
-              <label class="custom-control-label" for="country_check">Country</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="hiphop_rb_check" name="genre" value="hiphop_rb">
-              <label class="custom-control-label" for="hiphop_rb_check">Hip Hop & RnB</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="dance_check" name="genre" value="dance">
-              <label class="custom-control-label" for="dance_check">Dance</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="alt_check" name="genre" value="alt">
-              <label class="custom-control-label" for="alt_check">Alternative</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="pop_check" name="genre" value="pop">
-              <label class="custom-control-label" for="pop_check">Pop</label>
-            </div>
-            <button type="button" class="btn btn-primary" onclick="form.submit()">Get Recommended</button>
-        </form>
+      <div class="card text-white bg-secondary">
+          <h4 class="card-header"><i class="fas fa-guitar"></i> Genre Selection</h4>
+          <div class="card-body">
+            <form  action="/home/anon_genre_submit/" method="POST">
+              {% csrf_token %}
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="country_check" name="genre" value="country">
+                  <label class="custom-control-label" for="country_check">Country</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="hiphop_rb_check" name="genre" value="hiphop_rb">
+                  <label class="custom-control-label" for="hiphop_rb_check">Hip Hop & RnB</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="dance_check" name="genre" value="dance">
+                  <label class="custom-control-label" for="dance_check">Dance</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="alt_check" name="genre" value="alt">
+                  <label class="custom-control-label" for="alt_check">Alternative</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="pop_check" name="genre" value="pop">
+                  <label class="custom-control-label" for="pop_check">Pop</label>
+                </div>
+                <p></p>
+                <button type="button" class="btn btn-primary" onclick="form.submit()">Get Recommended</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-6 container-fluid">
@@ -43,14 +49,42 @@
           {% endif %}
       </div>
     </div>
-    <div class="col-3">
-      <div class="d-flex flex-row justify-content-center">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
-            <div class="card-body">
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-          </div>
+    <div class="col-4">
+      <div class="col-auto">
+        <h2 style="text-align:center">--Listening Party Logo Space--</h2>
+          <div class="table-responsive center" style="height: 500px; width:auto; overflow: auto;" >
+          <table class="table table-fixed table-secondary table-striped">
+            <tbody >
+              <tr id="listen_row">
+                <td id="listen_cell">Sunday</td>
+                <td><p style="vertical-align: middle; text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Monday</td>
+                <td><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Tuesday</td>
+                <td><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Wednesday</td>
+                <td id="listen_cell"><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4FcAKI5Nhzq" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Thursday</td>
+                <td><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DWVqJMsgEN0F4" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Friday</td>
+                <td><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcF6B6QPhFDv" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+              <tr id="listen_row">
+                <td id="listen_cell">Saturday</td>
+                <td><p style="text-align:center;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX1lVhptIYRda" width="400" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
