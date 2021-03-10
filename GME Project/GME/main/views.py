@@ -25,7 +25,7 @@ def home(request):
 
 def login(request):
     if request.method == 'GET':
-        return redirect(sp.oauth_login_redirect("user-top-read","http://localhost/home/log_auth/"));
+        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost/home/log_auth/"));
 
 
 ###################################################################################################
@@ -57,7 +57,6 @@ def logout(request):
 
 def anon_genre_submit(request):
     request.session['tracklist'] = sp.get_recommended(request.POST.getlist('genre'))
-    print(request.session['tracklist'])
     return render(request, 'home.html')
         
 
