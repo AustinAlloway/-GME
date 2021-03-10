@@ -1,5 +1,38 @@
 {% extends "base_layout.html" %}
 
 {% block body_content %}
-
+<div class="row">
+    <div class="col-1" id="padding_col"></div>
+    <div class="col-7">
+    {{request.session.profile}}
+        <p id="paragraph_spacer"></p>
+        <div class="input-group mb-3" id="display_name_group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Display Name</span>
+                <span class="input-group-text" id="basic-addon3">{{request.session.profile.display_name}}</span>
+            </div>
+        </div>
+        <p id="paragraph_spacer">
+        </p>
+        <div class="input-group mb-3" id="spotify_id_group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Spotify ID</span>
+                <span class="input-group-text" id="basic-addon3">{{request.session.profile.id}}</span>
+            </div>
+        <p id="paragraph_spacer">
+        </p>
+        <div class="input-group mb-3" id="country_group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">country</span>
+                    <span class="input-group-text" id="basic-addon3">{{request.session.profile.country}}</span>
+                </div>
+        </div>
+            <a role="button" class="btn btn-success" href="{{request.session.profile.external_urls.spotify}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
+        </div>
+    </div>
+    <div class="col-2">
+        <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_page_img"/>
+    </div>
+    <div class="col-1" id="padding_col"></div>
+</div>
 {% endblock %}

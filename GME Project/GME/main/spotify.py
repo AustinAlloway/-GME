@@ -80,7 +80,7 @@ def oauth_login_redirect(scopes, redirect_uri):
 #####################################################################################
 
 def get_recommended(genres):
-    request_url = "https://api.spotify.com/v1/recommendations?limit=3&seed_artists={}"
+    request_url = "https://api.spotify.com/v1/recommendations?limit=6&seed_artists={}"
     genre_dict = {
         'country' : {
             'artist': "6roFdX1y5BYSbp60OTJWMd",

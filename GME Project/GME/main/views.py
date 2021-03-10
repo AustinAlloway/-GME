@@ -25,7 +25,7 @@ def home(request):
 
 def login(request):
     if request.method == 'GET':
-        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost/home/log_auth/"));
+        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost/log_auth/"));
 
 
 ###################################################################################################
@@ -34,7 +34,7 @@ def login(request):
 ###################################################################################################
 
 def log_auth(request):
-    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost/home/log_auth/")
+    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost/log_auth/")
     request.session['access_token'] = oauth_dict['access_token']
     request.session['profile'] = sp.get_user_info(oauth_dict['access_token'])
     return render(request, 'home.html')
@@ -60,4 +60,14 @@ def anon_genre_submit(request):
     return render(request, 'home.html')
         
 
-    
+###################################################################################################
+# Request Type: GET                                                                               #
+# Route Explination: initializes the tracklist to 0 and renders homepage                          #
+###################################################################################################
+
+def profile(request):
+    if 'profile' in request.session:
+        return render(request, 'profile.html')
+    else:
+        return render(request, 'home.html')
+
