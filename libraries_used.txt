@@ -1,0 +1,6 @@
+bson
+prettyprint
+django
+pymongo
+numpy
+requests
