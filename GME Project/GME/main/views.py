@@ -35,8 +35,17 @@ def login(request):
 
 def log_auth(request):
     oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost/log_auth/")
-    request.session['access_token'] = oauth_dict['access_token']
-    request.session['profile'] = sp.get_user_info(oauth_dict['access_token'])
+    sp_json = sp.get_user_info(oauth_dict['access_token'])
+    request.session['profile'] = {}
+    request.session['profile']['access_token'] = oauth_dict['access_token']
+    request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
+    request.session['profile']['username'] = sp_json['id']
+    request.session['profile']['display_name'] = sp_json['display_name']
+    request.session['profile']['email'] = sp_json['email']
+    request.session['profile']['profile_pic'] = sp_json['images'][0]['url']
+    request.session['profile']['country'] = sp_json['country']
+    request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
+    request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
     return render(request, 'home.html')
 
 ###################################################################################################
@@ -71,3 +80,18 @@ def profile(request):
     else:
         return render(request, 'home.html')
 
+
+def testingpage(request):
+    
+    return render(request, 'dev.html')
+
+def testingpagep(request):
+    if request.method == 'POST':
+        if(sp.is_valid_token(request.session['access_token'])):
+            request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
+        else:
+            oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost/log_auth/")
+            request.session['access_token'] = oauth_dict['access_token']
+            request.session['refresh_token'] = oauth_dict['refresh_token']
+            request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
+    return render(request, 'dev.html')

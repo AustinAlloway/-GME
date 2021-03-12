@@ -36,7 +36,7 @@
           </div>
           {% else %}
             {{request.session.profile.disply_id}}
-            <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_thumb"/>
+            <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_thumb"/>
             <div class="d-flex" id="pro_log">
                 <form action="/logout/" method="POST">
                   {% csrf_token %}
@@ -53,6 +53,7 @@
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/">Home Page</a>
                   <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Match Making</a>
                   <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Listening Party</a>
+                  <a class="btn btn-outline-light" id="navbutton" role="button" href="/dev/">Developement Page</a>
               </div>
             </div>
           </div>
