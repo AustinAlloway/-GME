@@ -22,78 +22,47 @@ collection = db.users
 #                                                                                   #
 #####################################################################################
 #{ 
-#   username: 'aca0824',
-#   displayname: 'AustinAlloway', 
-#	 spotify_username: 'aca0824',
-#	 Spotify Profile URL: 'idk it',
-#	 Access Token: 'no clue',
-#	 email: 'nothings',
-#	 profile_pic: 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
-#	 age: 21,
-#	 gender: 'Male',
-#	 country: 'New Jersey',
-#	 match_pref:
+#    'username': 'aca33334',
+#    'displayname': 'AustinAlloway', 
+#	 'spotify_username': 'aca0824',
+#	 'spotify_profile_url': 'idk it',
+#	 'Access Token': 'no clue',
+#    'refresh_token': 'ctrlr',
+#	 'email': 'nothings',
+#	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
+#	 'age': 21,
+#	 'gender': 'Male',
+#	 'country': 'New Jersey',
+#	 'match_pref':
 #	 	{
-#	        age_min: 19,
-#	        age_max: 25,
-#	        gender: [ 'Male', 'Female']
+#	        'age_min': 19,
+#	        'age_max': 25,
+#	        'gender': [ 'Male', 'Female']
 #	    },      
-#	favorite_users: [ ],
-#	music_profile:
+#	 'favorite_users': [ ],
+#	 'music_profile':
 #	    {
-#	    	acousticness: 0.5,
- #         	danceability: 0.5,
-  #       	energy: 0.5,
-	#    	instrumentalness: 0.5,
-	 #   	liveness: 0.5,
-	#		loudness: 0.5,
-	#		speechiness: 0.5,
-	#		tempo: 0.5,
-	#		time_signature: 0.5,
-	#		valence: 0.5
-#	      }
-#}
+#	    	'acousticness': 0.5,
+#         	'danceability': 0.5,
+#       	'energy': 0.5,
+#    	    'instrumentalness': 0.5,
+#   	    'liveness': 0.5,
+#			'loudness': 0.5,
+#			'speechiness': 0.5,
+#			'tempo': 0.5,
+#			'time_signature': 0.5,
+#			'valence': 0.5
+#	      }}
 
 #####################################################################################
-# Param: user name as String                                                        #
-# Function: Checks is given username is currently in use                            #
-# RETURNS: True (In use)                                                            #
-# ON FAIL: Returns Falso (Not in use)                                               #
+# Param: user profile as JSON                                                       #
+# Function: Adds user to database                                                   #
+# RETURNS: True (inserted)                                                          #
+# ON FAIL: Returns Falso (Not inserted)                                             #
 #####################################################################################
-def add_user():
+def add_user(newUser):
     try:
-        collection.insert_one({ 
-   'username': 'aca33334',
-   'displayname': 'AustinAlloway', 
-	 'spotify_username': 'aca0824',
-	 'spotify_profile_url': 'idk it',
-	 'Access Token': 'no clue',
-     'refresh_token': 'ctrlr',
-	 'email': 'nothings',
-	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
-	 'age': 21,
-	 'gender': 'Male',
-	 'country': 'New Jersey',
-	 'match_pref':
-	 	{
-	        'age_min': 19,
-	        'age_max': 25,
-	        'gender': [ 'Male', 'Female']
-	    },      
-	'favorite_users': [ ],
-	'music_profile':
-	    {
-	    	'acousticness': 0.5,
-          	'danceability': 0.5,
-         	'energy': 0.5,
-	    	'instrumentalness': 0.5,
-	    	'liveness': 0.5,
-			'loudness': 0.5,
-			'speechiness': 0.5,
-			'tempo': 0.5,
-			'time_signature': 0.5,
-			'valence': 0.5
-	      }})
+        collection.insert_one(newUser)
         return True
     except:
         return False
@@ -125,8 +94,8 @@ def update_music_profile(username, newMusicProfile):
 
 #####################################################################################
 # Param: none                                                                       #
-# Function: get random user profile                                                 #
-# RETURNS: user profile                                                             #
+# Function: get all user profiles                                                   #
+# RETURNS: user profiles                                                             #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
 def find_all():
@@ -165,40 +134,9 @@ def find_user(user):
 # RETURNS: True                                                                     #
 # ON FAIL: Returns Falso                   !!!BORKED!!!                             #
 #####################################################################################
-def update_user():
+def update_user(username, profile):
     try:
-        collection.update_many({'username': 'aca0824'}, { '$set' : { 
-   'username': 'aca0824',
-   'displayname': 'AustinAlloway', 
-	 'spotify_username': 'aca0824',
-	 'spotify_profile_url': 'idk it',
-	 'Access Token': 'no clue',
-     'refresh_token': 'ctrlr',
-	 'email': 'nothings',
-	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
-	 'age': 21,
-	 'gender': 'Male',
-	 'country': 'New Jersey',
-	 'match_pref':
-	 	{
-	        'age_min': 19,
-	        'age_max': 25,
-	        'gender': [ 'Male', 'Female']
-	    },      
-	'favorite_users': [ ],
-	'music_profile':
-	    {
-	    	'acousticness': 0.5,
-          	'danceability': 0.5,
-         	'energy': 0.5,
-	    	'instrumentalness': 0.5,
-	    	'liveness': 0.5,
-			'loudness': 0.5,
-			'speechiness': 0.5,
-			'tempo': 0.5,
-			'time_signature': 0.5,
-			'valence': 0.5
-	      }}})
+        collection.update_many({'username': username}, { '$set' : profile}})
         return True
     except:
         return False
