@@ -32,7 +32,7 @@ collection = db.users
 #	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
 #	 'age': 21,
 #	 'gender': 'Male',
-#	 'country': 'New Jersey',
+#	 'country': 'United States',
 #	 'match_pref':
 #	 	{
 #	        'age_min': 19,
