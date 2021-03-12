@@ -22,13 +22,13 @@ collection = db.users
 #                                                                                   #
 #####################################################################################
 #{ 
-#    'username': 'aca33334',
+#    'username': 'aca0824',
 #    'displayname': 'AustinAlloway', 
 #	 'spotify_username': 'aca0824',
-#	 'sp_profile': 'Link to profile URL',
-#	 'access_token': 'no clue',
-#    'refresh_token': 'ctrlr',
-#	 'email': 'nothings',
+#	 'sp_profile': 'https://open.spotify.com/user/aca0824',
+#	 'access_token': 'NgCXRK...MzYjw',
+#    'refresh_token': 'NgAagA...Um_SHo',
+#	 'email': 'email@example.com',
 #	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
 #	 'age': 21,
 #	 'gender': 'Male',
