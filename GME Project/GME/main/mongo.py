@@ -55,6 +55,42 @@ collection = db.users
 #	      }}
 
 #####################################################################################
+# Param: none                                                                       #
+# Function: get all user profiles                                                   #
+# RETURNS: user profiles                                                            #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def find_all():
+    try:
+        return(collection.find())
+    except:
+        return False
+
+#####################################################################################
+# Param: none                                                                       #
+# Function: get random user profile                                                 #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def find_one():
+    try:
+        return(collection.find_one())
+    except:
+        return False
+    
+#####################################################################################
+# Param: username of User                                                           #
+# Function: get user profile of denoted user                                        #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def find_user(user):
+    try:
+        return(collection.find_one({ 'username': user}))
+    except:
+        return False
+
+#####################################################################################
 # Param: username as String, desired key name as string                             #
 # Function: Return's value for given keys. Generalized getter for non-nested values.#
 # RETURNS: key/value as JSON                                                        #
@@ -247,19 +283,6 @@ def get_displayname(username):
         return False
 
 #####################################################################################
-# Param: user profile as JSON                                                       #
-# Function: Adds user to database                                                   #
-# RETURNS: True (inserted)                                                          #
-# ON FAIL: Returns Falso (Not inserted)                                             #
-#####################################################################################
-def add_user(newUser):
-    try:
-        collection.insert_one(newUser)
-        return True
-    except:
-        return False
-
-#####################################################################################
 # Param: ObjectID of User                                                           #
 # Function: Takes user ObjectID and returns their username                          #
 # RETURNS: String username                                                          #
@@ -268,31 +291,6 @@ def add_user(newUser):
 def get_username(userid):
     try:
         return collection.find_one( {"_id": userid}, {"username" : 1, "_id": 0})
-    except:
-        return False
-
-#####################################################################################
-# Param: username as String, newMusicProfile as Json                                #
-# Function: Overwrites existing music profile with inputted profile                 #
-# RETURNS: True                                                                     #
-# ON FAIL: Returns Falso                                                            #
-#####################################################################################
-def update_music_profile(username, newMusicProfile):
-    try:
-        collection.update_many({"username": username}, { '$set' : { "music_profile": newMusicProfile}})
-        return True
-    except:
-        return False
-
-#####################################################################################
-# Param: username as String, attribute key as string                                #
-# Function: Return's denoted user's single music profile attribute value            #
-# RETURNS: attribute value as json                                                  #
-# ON FAIL: Returns Falso                                                            #
-#####################################################################################
-def get_music_profile_attribute(username, attribute):
-    try:
-        return collection.find_one({"username": username}, {"music_profile": {attribute: 1}, "_id": 0})
     except:
         return False
 
@@ -308,41 +306,40 @@ def get_music_profile(username):
     except:
         return False
         
-# Get individual music profile attribute values
-
 #####################################################################################
-# Param: none                                                                       #
-# Function: get all user profiles                                                   #
-# RETURNS: user profiles                                                            #
+# Param: username as String, attribute key as string                                #
+# Function: Return's denoted user's single music profile attribute value            #
+# RETURNS: attribute value as json                                                  #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def find_all():
+def get_music_profile_attribute(username, attribute):
     try:
-        return(collection.find())
+        return collection.find_one({"username": username}, {"music_profile": {attribute: 1}, "_id": 0})
+    except:
+        return False
+#####################################################################################
+# Param: user profile as JSON                                                       #
+# Function: Adds user to database                                                   #
+# RETURNS: True (inserted)                                                          #
+# ON FAIL: Returns Falso (Not inserted)                                             #
+#####################################################################################
+def add_user(newUser):
+    try:
+        collection.insert_one(newUser)
+        return True
     except:
         return False
 
 #####################################################################################
-# Param: none                                                                       #
-# Function: get random user profile                                                 #
-# RETURNS: user profile                                                             #
+# Param: username as String, newMusicProfile as Json                                #
+# Function: Overwrites existing music profile with inputted profile                 #
+# RETURNS: True                                                                     #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def find_one():
+def update_music_profile(username, newMusicProfile):
     try:
-        return(collection.find_one())
-    except:
-        return False
-
-#####################################################################################
-# Param: username of User                                                           #
-# Function: get user profile of denoted user                                        #
-# RETURNS: user profile                                                             #
-# ON FAIL: Returns Falso                                                            #
-#####################################################################################
-def find_user(user):
-    try:
-        return(collection.find_one({ 'username': user}))
+        collection.update_many({"username": username}, { '$set' : { "music_profile": newMusicProfile}})
+        return True
     except:
         return False
 
