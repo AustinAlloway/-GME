@@ -54,6 +54,49 @@ collection = db.users
 #	      }
 #}
 
+#####################################################################################
+# Param: user name as String                                                        #
+# Function: Checks is given username is currently in use                            #
+# RETURNS: True (In use)                                                            #
+# ON FAIL: Returns Falso (Not in use)                                               #
+#####################################################################################
+def add_user():
+    try:
+        collection.insert_one({ 
+   'username': 'aca33334',
+   'displayname': 'AustinAlloway', 
+	 'spotify_username': 'aca0824',
+	 'spotify_profile_url': 'idk it',
+	 'Access Token': 'no clue',
+     'refresh_token': 'ctrlr',
+	 'email': 'nothings',
+	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
+	 'age': 21,
+	 'gender': 'Male',
+	 'country': 'New Jersey',
+	 'match_pref':
+	 	{
+	        'age_min': 19,
+	        'age_max': 25,
+	        'gender': [ 'Male', 'Female']
+	    },      
+	'favorite_users': [ ],
+	'music_profile':
+	    {
+	    	'acousticness': 0.5,
+          	'danceability': 0.5,
+         	'energy': 0.5,
+	    	'instrumentalness': 0.5,
+	    	'liveness': 0.5,
+			'loudness': 0.5,
+			'speechiness': 0.5,
+			'tempo': 0.5,
+			'time_signature': 0.5,
+			'valence': 0.5
+	      }})
+        return True
+    except:
+        return False
 
 #####################################################################################
 # Param: ObjectID of User                                                           #
@@ -77,6 +120,18 @@ def update_music_profile(username, newMusicProfile):
     try:
         collection.update_many({"username": username}, { '$set' : { "music_profile": newMusicProfile}})
         return True
+    except:
+        return False
+
+#####################################################################################
+# Param: none                                                                       #
+# Function: get random user profile                                                 #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def find_all():
+    try:
+        return(collection.find())
     except:
         return False
 
@@ -118,6 +173,7 @@ def update_user():
 	 'spotify_username': 'aca0824',
 	 'spotify_profile_url': 'idk it',
 	 'Access Token': 'no clue',
+     'refresh_token': 'ctrlr',
 	 'email': 'nothings',
 	 'profile_pic': 'https://i.scdn.co/image/ab6775700000ee859bf0698648aebb835bdb6412',
 	 'age': 21,
@@ -142,8 +198,7 @@ def update_user():
 			'tempo': 0.5,
 			'time_signature': 0.5,
 			'valence': 0.5
-	      }
-})
+	      }}})
         return True
     except:
         return False
@@ -173,10 +228,11 @@ def check_username(username):
 ## example terminal command: $ python3 mongo.py 1
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
-        print(find_one())
+        for elem in find_all():
+            print(elem)
 
     if sys.argv[1] == '2':
-        print(get_username())
+        print(add_user())
 
     if sys.argv[1] == '3':
         print(find_user(sys.argv[2]))
@@ -185,7 +241,7 @@ if len(sys.argv) > 1:
         print(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        print(update_user())
+        print(find_all())
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
