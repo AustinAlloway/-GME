@@ -1,3 +1,4 @@
+from django.http import response
 import requests, json, math
 import numpy as np
 
@@ -35,6 +36,49 @@ def get_user_info(token):
         return json.loads(response)
     except:
         return {"Error":"Connection Issue"}
+
+#####################################################################################
+# Param: Refresh Token and redirect URI                                             #
+# Function: Gets a new acces token if the old acces token expired                   #
+# RETURNS: Json of access token                                                     #
+# ON FAIL: Returns Error Json if Connection Issue                                   #
+#####################################################################################
+
+def refresh_token(token,redirect_uri):
+    try:
+        client_id = "cad3a2d75d7e4e3681cb0479e8bfe87d"
+        client_secret = "fba779ebdca64d09aae51d60555dc565"
+        body_for_auth = {
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "grant_type": "authorization_code",
+            "code": "{}".format(token),
+            "redirect_uri" : "{}".format(redirect_uri)
+        }
+        return json.loads(requests.post("https://accounts.spotify.com/api/token",data=body_for_auth).text)
+    except:
+        return {"Error": "Connection Issue"}
+
+#####################################################################################
+# Param: Access Code                                                                #
+# Function: Tests to see if current access token is usable                          #
+# RETURNS: True is token is usable                                                  #
+# ON FAIL: Returns False to indicate the need to use refresh token                  #
+#####################################################################################
+
+def is_valid_token(token):
+    try:
+        head = {
+            "Authorization": "Bearer {}".format(token)
+        }
+        response = requests.get("https://api.spotify.com/v1/me",headers=head).text
+        if 'error' in response:
+            return False
+        else:
+            return True
+    except:
+        return False
+
 
 #####################################################################################
 # Param: Access Code and redirect URI                                               #
@@ -116,3 +160,62 @@ def get_recommended(genres):
             return []
     else:
         return []
+
+
+def get_music_profile(track_id_list, access_token):
+    request_url = "https://api.spotify.com/v1/audio-features?ids={}"
+    head = {
+        "Authorization": "Bearer {}".format(access_token)
+    }
+    response_list = json.loads(requests.get(request_url.format("%2C".join(track_id_list)),headers=head).text)['audio_features']
+    list_len = len(response_list)
+    audio_features = {
+            'acousticness': 0,
+            'danceability': 0,
+            'energy': 0,
+            'instrumentalness': 0,
+            'liveness': 0,
+            'loudness': 0,
+            'mode': 0,
+            'speechiness': 0,
+            'tempo': 0,
+            'time_signature': 0,
+            'valence': 0,
+        }
+    for track in response_list:
+        audio_features['acousticness'] += track['acousticness']
+        audio_features['danceability'] += track['danceability']
+        audio_features['energy'] += track['energy']
+        audio_features['instrumentalness'] += track['instrumentalness']
+        audio_features['liveness'] += track['liveness']
+        audio_features['loudness'] += track['loudness']
+        audio_features['mode'] += track['mode']
+        audio_features['speechiness'] += track['speechiness']
+        audio_features['tempo'] += track['tempo']
+        audio_features['time_signature'] += track['time_signature']
+        audio_features['valence'] += track['valence']
+        
+    audio_features['acousticness'] = audio_features['acousticness']/list_len
+    audio_features['danceability'] = audio_features['danceability']/list_len
+    audio_features['energy'] = audio_features['energy']/list_len
+    audio_features['instrumentalness'] = audio_features['instrumentalness']/list_len
+    audio_features['liveness'] = audio_features['liveness']/list_len
+    audio_features['loudness'] = audio_features['loudness']/list_len
+    audio_features['mode'] = audio_features['mode']/list_len
+    audio_features['speechiness'] = audio_features['speechiness']/list_len
+    audio_features['tempo'] = audio_features['tempo']/list_len
+    audio_features['time_signature'] = audio_features['time_signature']/list_len
+    audio_features['valence'] = audio_features['valence']/list_len
+
+    return audio_features
+
+def get_top_track_list(access_token):
+    head = {
+        "Authorization": "Bearer {}".format(access_token)
+    }
+    request_url = "https://api.spotify.com/v1/me/top/tracks"
+    response_list = json.loads(requests.get(request_url,headers=head).text)['items']
+    top_track_id_list = []
+    for track in response_list:
+        top_track_id_list.append(track['id'])
+    return top_track_id_list

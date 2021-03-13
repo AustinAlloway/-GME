@@ -6,11 +6,10 @@
     <div class="col-7">
     {{request.session.profile}}
         <p id="paragraph_spacer"></p>
-        <div class="input-group mb-3" id="display_name_group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">Display Name</span>
-                <span class="input-group-text" id="basic-addon3">{{request.session.profile.display_name}}</span>
-            </div>
+        <div class="card">
+            <div class="card-header">Header</div>
+            <div class="card-body">Content</div>
+            <div class="card-footer">Footer</div>
         </div>
         <p id="paragraph_spacer">
         </p>
@@ -27,11 +26,11 @@
                     <span class="input-group-text" id="basic-addon3">{{request.session.profile.country}}</span>
                 </div>
         </div>
-            <a role="button" class="btn btn-success" href="{{request.session.profile.external_urls.spotify}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
+            <a role="button" class="btn btn-success" href="{{request.session.profile.sp_spotify}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
         </div>
     </div>
     <div class="col-2">
-        <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_page_img"/>
+        <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
     </div>
     <div class="col-1" id="padding_col"></div>
 </div>

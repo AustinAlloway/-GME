@@ -1,0 +1,18 @@
+{% extends "base_layout.html" %}
+
+{% block body_content %}
+<div class="row">
+    <div class="col-1" id="padding_col"></div>
+    <div class="col-7">
+    {{request.session.profile.music_profile}}
+        <form action="/devp/" method="POST">
+              {% csrf_token %}
+            <button type="button" class="btn btn-primary" onclick="form.submit()">TEST BABY</button>
+        </form>
+    </div>
+    <div class="col-2">
+        <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_page_img"/>
+    </div>
+    <div class="col-1" id="padding_col"></div>
+</div>
+{% endblock %}
