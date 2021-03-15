@@ -11,7 +11,7 @@ from . import mongo as m
 
 def load_profile(request,profile_json):
     request.session['profile']['username'] = profile_json['username']
-    request.session['profile']['display_name'] = profile_json['display_name']
+    request.session['profile']['display_name'] = profile_json['displayname']
     request.session['profile']['spotify_username'] = profile_json['spotify_username']
     request.session['profile']['sp_profile'] = profile_json['sp_profile']
     request.session['profile']['access_token'] = profile_json['access_token']
@@ -23,7 +23,7 @@ def load_profile(request,profile_json):
     request.session['profile']['country'] = profile_json['country']
     request.session['profile']['match_pref'] = profile_json['match_pref']
     request.session['profile']['favorite_users'] = profile_json['favorite_users']
-    request.session['profile']['music_profile'] = ['music_profile']
+    request.session['profile']['music_profile'] = profile_json['music_profile']
     return ""
 
 
@@ -59,15 +59,27 @@ def log_auth(request):
     if (m.check_username(sp_json['id'])):
         load_profile(request,m.find_user(sp_json['id']))
     else:
-        m.profile_formatter(username = sp_json['id'],
+        profile_json = m.profile_formatter(username = sp_json['id'],
         display_name= sp_json['display_name'],
         spotify_username=sp_json['id'],
-        sp_profile= ''
+        sp_profile= sp_json['external_urls']['spotify'],
+        access_token=oauth_dict['access_token'],
+        refresh_token=oauth_dict['refresh_token'],
+        email=sp_json['email'],
+        profile_pic=sp_json['images'][0]['url'],
+        age=18,
+        gender='N/A',
+        country=sp_json['country'],
+        match_pref={
+            'age_min': 18,
+	        'age_max': 25,
+	        'gender': [ 'Male', 'Female']
+        },
+        favorite_users=[],
+        music_profile=sp.get_music_profile(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token']),
         )
-        m.add_user()
-        
-        
-    print(oauth_dict)
+        m.add_user(profile_json)
+        load_profile(request,profile_json=profile_json)
     return render(request, 'home.html')
 
 ###################################################################################################
@@ -96,16 +108,18 @@ def anon_genre_submit(request):
 # Route Explination: initializes the tracklist to 0 and renders homepage                          #
 ###################################################################################################
 
-def profile(request):
-    if 'profile' in request.session:
+def profile(request, name):
+    if ('profile' in request.session) and (name == request.session['profile']['username']):
         return render(request, 'profile.html')
     else:
         return render(request, 'home.html')
 
 
 def testingpage(request):
-    
-    return render(request, 'dev.html')
+    user_list = []
+    for user in m.find_all():
+        user_list.append(user)
+    return render(request, 'dev.html', {'user_list':user_list})
 
 def testingpagep(request):
     if request.method == 'POST':

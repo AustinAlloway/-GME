@@ -4,15 +4,19 @@
 <div class="row">
     <div class="col-1" id="padding_col"></div>
     <div class="col-7">
-    {{request.session.profile.music_profile}}
-        <form action="/devp/" method="POST">
-              {% csrf_token %}
-            <button type="button" class="btn btn-primary" onclick="form.submit()">TEST BABY</button>
-        </form>
+        <div class="d-flex" style="margin:20px;">
+            {% for user in user_list %}
+            <div class="p-2 mr-auto">
+                    <div class="card" style="width:200px">
+                    <img class="card-img-top" src="{{user.profile_pic}}" alt="Card image" style="height:200px;width:200px;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{user.displayname}}</h4>
+                        <a href="{{user.sp_profile}}" class="btn btn-primary" target="_blank">See Profile</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    <div class="col-2">
-        <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
-    </div>
-    <div class="col-1" id="padding_col"></div>
 </div>
 {% endblock %}
