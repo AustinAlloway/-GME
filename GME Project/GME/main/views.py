@@ -6,6 +6,25 @@ from django.shortcuts import redirect
 from django.http import QueryDict
 import json, requests, base64
 from . import spotify as sp
+from . import mongo as m
+
+
+def load_profile(request,profile_json):
+    request.session['profile']['username'] = profile_json['username']
+    request.session['profile']['display_name'] = profile_json['display_name']
+    request.session['profile']['spotify_username'] = profile_json['spotify_username']
+    request.session['profile']['sp_profile'] = profile_json['sp_profile']
+    request.session['profile']['access_token'] = profile_json['access_token']
+    request.session['profile']['refresh_token'] = profile_json['refresh_token']
+    request.session['profile']['email'] = profile_json['email']
+    request.session['profile']['profile_pic'] = profile_json['profile_pic']
+    request.session['profile']['age'] = profile_json['age']
+    request.session['profile']['gender'] = profile_json['gender']
+    request.session['profile']['country'] = profile_json['country']
+    request.session['profile']['match_pref'] = profile_json['match_pref']
+    request.session['profile']['favorite_users'] = profile_json['favorite_users']
+    request.session['profile']['music_profile'] = ['music_profile']
+    return ""
 
 
 ###################################################################################################
@@ -37,15 +56,17 @@ def log_auth(request):
     oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost/log_auth/")
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
-    request.session['profile']['access_token'] = oauth_dict['access_token']
-    request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
-    request.session['profile']['username'] = sp_json['id']
-    request.session['profile']['display_name'] = sp_json['display_name']
-    request.session['profile']['email'] = sp_json['email']
-    request.session['profile']['profile_pic'] = sp_json['images'][0]['url']
-    request.session['profile']['country'] = sp_json['country']
-    request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
-    request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
+    if (m.check_username(sp_json['id'])):
+        load_profile(request,m.find_user(sp_json['id']))
+    else:
+        m.profile_formatter(username = sp_json['id'],
+        display_name= sp_json['display_name'],
+        spotify_username=sp_json['id'],
+        sp_profile= ''
+        )
+        m.add_user()
+        
+        
     print(oauth_dict)
     return render(request, 'home.html')
 

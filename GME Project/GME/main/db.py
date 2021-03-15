@@ -1,3 +1,6 @@
 import mongo as m
 
-print(m.find_all())
+for x in m.find_all():
+    print(x)
+print("\n\n\n")
+print(m.find_user('aca33334'))
