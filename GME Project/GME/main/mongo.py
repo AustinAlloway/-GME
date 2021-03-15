@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 import pprint
 import sys
 
-client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 try:
     # The ismaster command is cheap and does not require auth.
     client.admin.command('ismaster')
