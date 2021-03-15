@@ -1,13 +1,13 @@
 {% if width > 0.6%}
-<div class="progress">
+<div class="progress" style="height:30px;">
   <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {% widthratio width 1 100 %}%" >{{type}}</div>
 </div>
 {% elif width > 0.3 %}
-<div class="progress">
+<div class="progress" style="height:30px;">
   <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" style="width: {% widthratio width 1 100 %}%" >{{type}}</div>
 </div>
 {% elif width > 0 %}
-<div class="progress">
+<div class="progress" style="height:30px;">
   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {% widthratio width 1 100 %}%" >{{type}}</div>
 </div>
 {% endif %}

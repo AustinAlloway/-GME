@@ -50,10 +50,9 @@
             <div class="card-footer"><center><a role="button" class="btn btn-success" href="{{request.session.profile.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a></center></div>
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-3" id="profile_page_img_col">
         <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
     </div>
-    <div class="col-1" id="padding_col"></div>
 </div>
 {% endblock %}
 
