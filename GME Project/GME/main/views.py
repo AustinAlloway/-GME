@@ -46,6 +46,7 @@ def log_auth(request):
     request.session['profile']['country'] = sp_json['country']
     request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
     request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
+    print(oauth_dict)
     return render(request, 'home.html')
 
 ###################################################################################################
@@ -91,7 +92,7 @@ def testingpagep(request):
             request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
         else:
             oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost/log_auth/")
-            request.session['access_token'] = oauth_dict['access_token']
-            request.session['refresh_token'] = oauth_dict['refresh_token']
+            request.session['profile']['access_token'] = oauth_dict['access_token']
+            request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
             request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
     return render(request, 'dev.html')
