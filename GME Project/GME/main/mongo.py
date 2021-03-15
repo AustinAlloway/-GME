@@ -370,10 +370,9 @@ def check_username(username):
         return False
 
 #####################################################################################
-# Param: user name as String                                                        #
-# Function: Checks is given username is currently in use                            #
-# RETURNS: True (In use)                                                            #
-# ON FAIL: Returns Falso (Not in use)                                               #
+# Param: Profile creation info                                                      #
+# Function: formats a user for database entry                                       #
+# RETURNS: Profile format                                                           #
 #####################################################################################
 def profile_formatter(username,display_name,spotify_username,sp_profile,access_token,refresh_token,email,
 profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
@@ -405,3 +404,23 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
 ## Execute certain functions based on command line arguments
 ## No arguments prints only successful or failed connection to database
 ## example terminal command: $ python3 mongo.py 1
+if len(sys.argv) > 1:
+    if sys.argv[1] == '1':
+        for elem in find_all():
+            print(elem)
+
+    if sys.argv[1] == '2':
+        print(add_user())
+
+    if sys.argv[1] == '3':
+        print(find_user(sys.argv[2]))
+
+    if sys.argv[1] == '4':
+        print(check_username(sys.argv[2]))
+    
+    if sys.argv[1] == '5':
+        print(get_keys_value("aca33334", "match_pref"))
+else:
+    print("!!! No arguments given !!!")
+    print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
+    print('example terminal command: $ python3 mongo.py 1')
