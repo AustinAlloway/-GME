@@ -45,7 +45,7 @@ def log_auth(request):
     request.session['profile']['profile_pic'] = sp_json['images'][0]['url']
     request.session['profile']['country'] = sp_json['country']
     request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
-    request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
+    request.session['profile']['music_profile'] = sp.get_music_profile_spotify(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
     return render(request, 'home.html')
 
 ###################################################################################################
