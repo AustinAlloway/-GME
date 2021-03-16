@@ -162,7 +162,7 @@ def get_recommended(genres):
         return []
 
 
-def get_music_profile(track_id_list, access_token):
+def get_music_profile_spotify(track_id_list, access_token):
     request_url = "https://api.spotify.com/v1/audio-features?ids={}"
     head = {
         "Authorization": "Bearer {}".format(access_token)
@@ -219,3 +219,4 @@ def get_top_track_list(access_token):
     for track in response_list:
         top_track_id_list.append(track['id'])
     return top_track_id_list
+
