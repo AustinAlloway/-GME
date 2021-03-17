@@ -1,0 +1,34 @@
+<div class="card bg-dark ">
+            <div class="card-header" style="color:white;"><center><h3>Profile Details</h3></center></div>
+            <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-dark"><b>Spotify Username:</b> {{user_json.username}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Display Name:</b> {{user_json.displayname}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Email:</b> {{user_json.email}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Country:</b> {{user_json.country}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Gender:</b> {{user_json.gender}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Age:</b> {{user_json.age}}</li>
+                        <ul class="list-group">
+                        </ul>
+                </div>
+                    <div class="col-8">
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.acousticness type="acousticness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.danceability type="danceability"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.energy type="energy"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.liveness type="liveness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.speechiness type="speechiness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.valence type="valence"%}
+                        <p id="barspacing"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer"><center><a role="button" class="btn btn-success" href="{{user_json.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a></center></div>
+        </div>

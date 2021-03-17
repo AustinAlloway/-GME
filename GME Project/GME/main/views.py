@@ -8,6 +8,8 @@ import json, requests, base64
 from . import spotify as sp
 from . import mongo as m
 
+authorized_users = ['k7lw']
+
 #####################################################################################
 # Param: the default request object and user profiles json                          #
 # Function: puts the profile from the parameter into the session                    #
@@ -81,11 +83,11 @@ def log_auth(request):
         country=sp_json['country'],
         match_pref={
             'age_min': 18,
-	        'age_max': 25,
+	        'age_max': 30,
 	        'gender': [ 'Male', 'Female']
         },
         favorite_users=[],
-        music_profile=sp.get_music_profile(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token']),
+        music_profile=sp.get_music_profile_spotify(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token']),
         )
         m.add_user(profile_json)
         load_profile(request,profile_json=profile_json)
@@ -129,29 +131,26 @@ def anon_genre_submit(request):
 
 def profile(request, name):
     if ('profile' in request.session) and (name == request.session['profile']['username']):
-        return render(request, 'profile.html')
+        return render(request, 'profile.html',{'user_json':request.session['profile']})
     else:
         return render(request, 'home.html')
 
 
 
 def development_page(request):
-    user_list = []
-    for user in m.find_all():
-        user_list.append(user)
-    return render(request, 'dev.html', {'user_list':user_list})
+    if ('profile' in request.session and request.session['profile']['username'] in authorized_users):
+        user_list = []
+        for user in m.find_all():
+            user_list.append(user)
+        return render(request, 'dev.html', {'user_list':user_list})
+    else:
+        return render(request, 'unauthorized.html')
 
-def development_page_post(request):
+
+def development_page_post(request,username):
     if request.method == 'POST':
-        if(sp.is_valid_token(request.session['access_token'])):
-            request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
+        if ('profile' in request.session and request.session['profile']['username'] in authorized_users):
+            user_json = m.find_user(username)
+            return render(request, 'profile.html', {'user_json':user_json})
         else:
-
-            oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost/log_auth/")
-            request.session['profile']['access_token'] = oauth_dict['access_token']
-            request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
-            oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost:8000/log_auth/")
-            request.session['access_token'] = oauth_dict['access_token']
-            request.session['refresh_token'] = oauth_dict['refresh_token']
-            request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
-    return render(request, 'dev.html')
+            return render(request, 'unauthorized.html')
