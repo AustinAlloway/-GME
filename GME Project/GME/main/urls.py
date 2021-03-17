@@ -10,6 +10,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('anon_genre_submit/', views.anon_genre_submit, name='anon_genre_submit'),
     path('profile/<str:name>', views.profile, name='profile'),
-    path('dev/', views.testingpage, name='dev'),
-    path('devp/', views.testingpagep, name='devp'),
+    path('dev/', views.development_page, name='dev'),
+    path('devp/', views.development_page_post, name='devp'),
 ]

@@ -8,23 +8,32 @@ import json, requests, base64
 from . import spotify as sp
 from . import mongo as m
 
+#####################################################################################
+# Param: the default request object and user profiles json                          #
+# Function: puts the profile from the parameter into the session                    #
+# RETURNS: Nothing because the profile gets added to the session                    #
+# ON FAIL: Nothing Happens                                                          #
+#####################################################################################
 
 def load_profile(request,profile_json):
-    request.session['profile']['username'] = profile_json['username']
-    request.session['profile']['display_name'] = profile_json['displayname']
-    request.session['profile']['spotify_username'] = profile_json['spotify_username']
-    request.session['profile']['sp_profile'] = profile_json['sp_profile']
-    request.session['profile']['access_token'] = profile_json['access_token']
-    request.session['profile']['refresh_token'] = profile_json['refresh_token']
-    request.session['profile']['email'] = profile_json['email']
-    request.session['profile']['profile_pic'] = profile_json['profile_pic']
-    request.session['profile']['age'] = profile_json['age']
-    request.session['profile']['gender'] = profile_json['gender']
-    request.session['profile']['country'] = profile_json['country']
-    request.session['profile']['match_pref'] = profile_json['match_pref']
-    request.session['profile']['favorite_users'] = profile_json['favorite_users']
-    request.session['profile']['music_profile'] = profile_json['music_profile']
-    return ""
+    try:
+        request.session['profile']['username'] = profile_json['username']
+        request.session['profile']['display_name'] = profile_json['displayname']
+        request.session['profile']['spotify_username'] = profile_json['spotify_username']
+        request.session['profile']['sp_profile'] = profile_json['sp_profile']
+        request.session['profile']['access_token'] = profile_json['access_token']
+        request.session['profile']['refresh_token'] = profile_json['refresh_token']
+        request.session['profile']['email'] = profile_json['email']
+        request.session['profile']['profile_pic'] = profile_json['profile_pic']
+        request.session['profile']['age'] = profile_json['age']
+        request.session['profile']['gender'] = profile_json['gender']
+        request.session['profile']['country'] = profile_json['country']
+        request.session['profile']['match_pref'] = profile_json['match_pref']
+        request.session['profile']['favorite_users'] = profile_json['favorite_users']
+        request.session['profile']['music_profile'] = profile_json['music_profile']
+        return None
+    except:
+        return None
 
 
 ###################################################################################################
@@ -115,13 +124,13 @@ def profile(request, name):
         return render(request, 'home.html')
 
 
-def testingpage(request):
+def development_page(request):
     user_list = []
     for user in m.find_all():
         user_list.append(user)
     return render(request, 'dev.html', {'user_list':user_list})
 
-def testingpagep(request):
+def development_page_post(request):
     if request.method == 'POST':
         if(sp.is_valid_token(request.session['access_token'])):
             request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
