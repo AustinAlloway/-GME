@@ -161,13 +161,20 @@ def get_recommended(genres):
     else:
         return []
 
+
 #####################################################################################
 # Param: List of track ids and an access token                                      #
 # Function: Calculates the average music profile for given users accesstoken        #
 # RETURNS: a JSON or DICT of the given users music profile                          #
 # ON FAIL: Returns JSON or DICT of the default music profile                        #
 #####################################################################################
-def get_music_profile(track_id_list, access_token):
+def get_music_profile_spotify(track_id_list, access_token):
+    request_url = "https://api.spotify.com/v1/audio-features?ids={}"
+    head = {
+        "Authorization": "Bearer {}".format(access_token)
+    }
+    response_list = json.loads(requests.get(request_url.format("%2C".join(track_id_list)),headers=head).text)['audio_features']
+    list_len = len(response_list)
     audio_features = {
                 'acousticness': 0,
                 'danceability': 0,
@@ -236,3 +243,13 @@ def get_top_track_list(access_token):
         return top_track_id_list
     except:
         return []
+    head = {
+        "Authorization": "Bearer {}".format(access_token)
+    }
+    request_url = "https://api.spotify.com/v1/me/top/tracks"
+    response_list = json.loads(requests.get(request_url,headers=head).text)['items']
+    top_track_id_list = []
+    for track in response_list:
+        top_track_id_list.append(track['id'])
+    return top_track_id_list
+

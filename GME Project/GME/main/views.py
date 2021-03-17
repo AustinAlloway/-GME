@@ -53,7 +53,7 @@ def home(request):
 
 def login(request):
     if request.method == 'GET':
-        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost/log_auth/"));
+        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost:8000/log_auth/"));
 
 
 ###################################################################################################
@@ -62,7 +62,7 @@ def login(request):
 ###################################################################################################
 
 def log_auth(request):
-    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost/log_auth/")
+    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost:8000/log_auth/")
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
     if (m.check_username(sp_json['id'])):
@@ -89,6 +89,16 @@ def log_auth(request):
         )
         m.add_user(profile_json)
         load_profile(request,profile_json=profile_json)
+    request.session['profile']['access_token'] = oauth_dict['access_token']
+    request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
+    request.session['profile']['username'] = sp_json['id']
+    request.session['profile']['display_name'] = sp_json['display_name']
+    request.session['profile']['email'] = sp_json['email']
+    request.session['profile']['profile_pic'] = sp_json['images'][0]['url']
+    request.session['profile']['country'] = sp_json['country']
+    request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
+    request.session['profile']['music_profile'] = sp.get_music_profile_spotify(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
+
     return render(request, 'home.html')
 
 ###################################################################################################
@@ -124,6 +134,7 @@ def profile(request, name):
         return render(request, 'home.html')
 
 
+
 def development_page(request):
     user_list = []
     for user in m.find_all():
@@ -135,8 +146,12 @@ def development_page_post(request):
         if(sp.is_valid_token(request.session['access_token'])):
             request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
         else:
+
             oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost/log_auth/")
             request.session['profile']['access_token'] = oauth_dict['access_token']
             request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
+            oauth_dict = sp.refresh_token(request.session['refresh_token'], "http://localhost:8000/log_auth/")
+            request.session['access_token'] = oauth_dict['access_token']
+            request.session['refresh_token'] = oauth_dict['refresh_token']
             request.session['profile']['music_profile'] = sp.get_music_profile(sp.get_top_track_list(request.session['access_token']), request.session['access_token'])
     return render(request, 'dev.html')

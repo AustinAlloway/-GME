@@ -52,7 +52,8 @@ collection = db.users
 #			'tempo': 0.5,
 #			'time_signature': 0.5,
 #			'valence': 0.5
-#	      }}
+#	     }
+# }
 
 #####################################################################################
 # Param: none                                                                       #
@@ -204,7 +205,7 @@ def get_age(username):
 # RETURNS: profile pic link as JSON                                                 #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def get_email(username):
+def get_prof_pic(username):
     try:
         return collection.find_one({"username": username}, {"profile_pic": 1, "_id": 0})
     except:
@@ -410,7 +411,7 @@ if len(sys.argv) > 1:
             print(elem)
 
     if sys.argv[1] == '2':
-        print(add_user())
+        print(add_user(sys.argv[2]))
 
     if sys.argv[1] == '3':
         print(find_user(sys.argv[2]))
