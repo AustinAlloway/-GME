@@ -1,37 +1,46 @@
 {% extends "base_layout.html" %}
-
 {% block body_content %}
 <div class="row">
     <div class="col-1" id="padding_col"></div>
     <div class="col-7">
-    {{request.session.profile}}
+   <!-- {{request.session.profile}} -->
         <p id="paragraph_spacer"></p>
-        <div class="card">
-            <div class="card-header">Header</div>
-            <div class="card-body">Content</div>
-            <div class="card-footer">Footer</div>
-        </div>
-        <p id="paragraph_spacer">
-        </p>
-        <div class="input-group mb-3" id="spotify_id_group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">Spotify ID</span>
-                <span class="input-group-text" id="basic-addon3">{{request.session.profile.id}}</span>
-            </div>
-        <p id="paragraph_spacer">
-        </p>
-        <div class="input-group mb-3" id="country_group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">country</span>
-                    <span class="input-group-text" id="basic-addon3">{{request.session.profile.country}}</span>
+        <div class="card bg-dark ">
+            <div class="card-header" style="color:white;"><center><h3>Profile Details</h3></center></div>
+            <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-dark"><b>Spotify Username:</b> {{request.session.profile.username}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Display Name:</b> {{request.session.profile.display_name}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Email:</b> {{request.session.profile.email}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Country:</b> {{request.session.profile.country}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Gender:</b> N/A</li>
+                        </ul>
                 </div>
-        </div>
-            <a role="button" class="btn btn-success" href="{{request.session.profile.sp_spotify}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
+                    <div class="col-8">
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.acousticness type="acousticness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.danceability type="danceability"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.energy type="energy"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.liveness type="liveness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.speechiness type="speechiness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=request.session.profile.music_profile.valence type="valence"%}
+                        <p id="barspacing"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer"><center><a role="button" class="btn btn-success" href="{{request.session.profile.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a></center></div>
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-3" id="profile_page_img_col">
         <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
     </div>
-    <div class="col-1" id="padding_col"></div>
 </div>
 {% endblock %}
+

@@ -41,7 +41,7 @@
                 <form action="/logout/" method="POST">
                   {% csrf_token %}
                     <div class="btn-group">
-                    <a class="btn btn-outline-light" role="button" href="/profile/">Profile</a>
+                    <a class="btn btn-outline-light" role="button" href="/profile/{{request.session.profile.username}}">Profile</a>
                     <button type="button" class="btn btn-outline-light" onclick="form.submit()">Logout</button>
                   </div>
                 </form>

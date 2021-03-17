@@ -162,6 +162,12 @@ def get_recommended(genres):
         return []
 
 
+#####################################################################################
+# Param: List of track ids and an access token                                      #
+# Function: Calculates the average music profile for given users accesstoken        #
+# RETURNS: a JSON or DICT of the given users music profile                          #
+# ON FAIL: Returns JSON or DICT of the default music profile                        #
+#####################################################################################
 def get_music_profile_spotify(track_id_list, access_token):
     request_url = "https://api.spotify.com/v1/audio-features?ids={}"
     head = {
@@ -170,46 +176,73 @@ def get_music_profile_spotify(track_id_list, access_token):
     response_list = json.loads(requests.get(request_url.format("%2C".join(track_id_list)),headers=head).text)['audio_features']
     list_len = len(response_list)
     audio_features = {
-            'acousticness': 0,
-            'danceability': 0,
-            'energy': 0,
-            'instrumentalness': 0,
-            'liveness': 0,
-            'loudness': 0,
-            'mode': 0,
-            'speechiness': 0,
-            'tempo': 0,
-            'time_signature': 0,
-            'valence': 0,
+                'acousticness': 0,
+                'danceability': 0,
+                'energy': 0,
+                'instrumentalness': 0,
+                'liveness': 0,
+                'loudness': 0,
+                'mode': 0,
+                'speechiness': 0,
+                'tempo': 0,
+                'time_signature': 0,
+                'valence': 0,
+            }
+    try:
+        request_url = "https://api.spotify.com/v1/audio-features?ids={}"
+        head = {
+            "Authorization": "Bearer {}".format(access_token)
         }
-    for track in response_list:
-        audio_features['acousticness'] += track['acousticness']
-        audio_features['danceability'] += track['danceability']
-        audio_features['energy'] += track['energy']
-        audio_features['instrumentalness'] += track['instrumentalness']
-        audio_features['liveness'] += track['liveness']
-        audio_features['loudness'] += track['loudness']
-        audio_features['mode'] += track['mode']
-        audio_features['speechiness'] += track['speechiness']
-        audio_features['tempo'] += track['tempo']
-        audio_features['time_signature'] += track['time_signature']
-        audio_features['valence'] += track['valence']
+        response_list = json.loads(requests.get(request_url.format("%2C".join(track_id_list)),headers=head).text)['audio_features']
+        list_len = len(response_list)
         
-    audio_features['acousticness'] = audio_features['acousticness']/list_len
-    audio_features['danceability'] = audio_features['danceability']/list_len
-    audio_features['energy'] = audio_features['energy']/list_len
-    audio_features['instrumentalness'] = audio_features['instrumentalness']/list_len
-    audio_features['liveness'] = audio_features['liveness']/list_len
-    audio_features['loudness'] = audio_features['loudness']/list_len
-    audio_features['mode'] = audio_features['mode']/list_len
-    audio_features['speechiness'] = audio_features['speechiness']/list_len
-    audio_features['tempo'] = audio_features['tempo']/list_len
-    audio_features['time_signature'] = audio_features['time_signature']/list_len
-    audio_features['valence'] = audio_features['valence']/list_len
+        for track in response_list:
+            audio_features['acousticness'] += track['acousticness']
+            audio_features['danceability'] += track['danceability']
+            audio_features['energy'] += track['energy']
+            audio_features['instrumentalness'] += track['instrumentalness']
+            audio_features['liveness'] += track['liveness']
+            audio_features['loudness'] += track['loudness']
+            audio_features['mode'] += track['mode']
+            audio_features['speechiness'] += track['speechiness']
+            audio_features['tempo'] += track['tempo']
+            audio_features['time_signature'] += track['time_signature']
+            audio_features['valence'] += track['valence']
+            
+        audio_features['acousticness'] = audio_features['acousticness']/list_len
+        audio_features['danceability'] = audio_features['danceability']/list_len
+        audio_features['energy'] = audio_features['energy']/list_len
+        audio_features['instrumentalness'] = audio_features['instrumentalness']/list_len
+        audio_features['liveness'] = audio_features['liveness']/list_len
+        audio_features['loudness'] = audio_features['loudness']/list_len
+        audio_features['mode'] = audio_features['mode']/list_len
+        audio_features['speechiness'] = audio_features['speechiness']/list_len
+        audio_features['tempo'] = audio_features['tempo']/list_len
+        audio_features['time_signature'] = audio_features['time_signature']/list_len
+        audio_features['valence'] = audio_features['valence']/list_len
+        return audio_features
+    except:
+        return audio_features
 
-    return audio_features
-
+#####################################################################################
+# Param: An Access Token for current user                                           #
+# Function: Returns list of top tracks from the users                               #
+# RETURNS: a list of tracks based of the user                                       #
+# ON FAIL: Returns an empty list                                                    #
+#####################################################################################
 def get_top_track_list(access_token):
+    try:
+        head = {
+            "Authorization": "Bearer {}".format(access_token)
+        }
+        request_url = "https://api.spotify.com/v1/me/top/tracks"
+        response_list = json.loads(requests.get(request_url,headers=head).text)['items']
+        top_track_id_list = []
+        for track in response_list:
+            top_track_id_list.append(track['id'])
+        return top_track_id_list
+    except:
+        return []
     head = {
         "Authorization": "Bearer {}".format(access_token)
     }
