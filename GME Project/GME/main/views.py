@@ -135,6 +135,24 @@ def profile(request, name):
     else:
         return render(request, 'home.html')
 
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: updates profile in the database                                              #
+###################################################################################################
+
+def profile_update(request):
+    if ('profile' in request.session):
+        print(request.POST.getlist('gender'))
+        #if (isinstance(request.POST.getlist('age'), int) and len(request.POST.getlist('age')) > 0):
+        print(int(request.POST.getlist('age')[0]))
+        print(request.POST.getlist('pref_age_min'))
+        print(request.POST.getlist('pref_age_max'))
+
+        load_profile(request,m.find_user(request.session['profile']['username']))
+        return render(request, 'profile.html',{'user_json':request.session['profile']})
+    else:
+        return render(request, 'home.html')
+
 
 
 def development_page(request):
