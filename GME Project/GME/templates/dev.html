@@ -11,7 +11,10 @@
                     <img class="card-img-top" src="{{user.profile_pic}}" alt="Card image" style="height:200px;width:200px;">
                     <div class="card-body">
                         <h4 class="card-title">{{user.displayname}}</h4>
-                        <a href="{{user.sp_profile}}" class="btn btn-primary" target="_blank">See Profile</a>
+                        <form action="/devp/{{user.username}}" method="POST">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-outline-light" onclick="form.submit()">See Profile</button>
+                        </form>
                     </div>
                 </div>
             </div>
