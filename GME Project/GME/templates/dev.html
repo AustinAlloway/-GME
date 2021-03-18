@@ -4,25 +4,6 @@
 <div class="row">
     <div class="col-1" id="padding_col"></div>
     <div class="col-7">
-<<<<<<< Updated upstream
-        <div class="d-flex" style="margin:20px;">
-            {% for user in user_list %}
-            <div class="p-2 mr-auto">
-                    <div class="card" style="width:200px">
-                    <img class="card-img-top" src="{{user.profile_pic}}" alt="Card image" style="height:200px;width:200px;">
-                    <div class="card-body">
-                        <h4 class="card-title">{{user.displayname}}</h4>
-                        <form action="/devp/{{user.username}}" method="POST">
-                        {% csrf_token %}
-                        <button type="button" class="btn btn-outline-light" onclick="form.submit()">See Profile</button>
-=======
-<<<<<<< Updated upstream
-    {{request.session.profile.music_profile}}
-        <form action="/devp/" method="POST">
-              {% csrf_token %}
-            <button type="button" class="btn btn-primary" onclick="form.submit()">TEST BABY</button>
-        </form>
-=======
         <div class="d-flex" style="margin:20px;">
             {% for user in user_list %}
             <div class="p-2 mr-auto">
@@ -35,17 +16,12 @@
                         <form action="/devp/{{user.username}}" method="POST">
                         {% csrf_token %}
                         <center><button type="button" class="btn btn-info" onclick="form.submit()">See Profile</button></center>
->>>>>>> Stashed changes
                         </form>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     </div>
 </div>
 {% endblock %}

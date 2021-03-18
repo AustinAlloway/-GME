@@ -10,9 +10,7 @@
                         <li class="list-group-item list-group-item-secondary"><b>Country:</b> {{user_json.country}}</li>
                         <li class="list-group-item list-group-item-dark"><b>Gender:</b> {{user_json.gender}}</li>
                         <li class="list-group-item list-group-item-secondary"><b>Age:</b> {{user_json.age}}</li>
-<<<<<<< Updated upstream
                         <ul class="list-group">
-=======
                         </ul>
                         <p id="barspacing"></p>
                         <ul class="list-group">
@@ -28,37 +26,31 @@
                                 {% endif %}
                             {% endfor %}
                             </li>
->>>>>>> Stashed changes
                         </ul>
                 </div>
                     <div class="col-8">
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.acousticness type="acousticness"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.acousticness type="acousticness"%}
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.danceability type="danceability"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.danceability type="danceability"%}
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.energy type="energy"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.energy type="energy"%}
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.liveness type="liveness"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.liveness type="liveness"%}
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.speechiness type="speechiness"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.speechiness type="speechiness"%}
                         <p id="barspacing"></p>
-                        {% include 'bars.html' with width=user_json.music_profile.valence type="valence"%}
+                        {% include 'bars.html' with width=user_json.music_profile.0.valence type="valence"%}
                         <p id="barspacing"></p>
                     </div>
                 </div>
             </div>
-<<<<<<< Updated upstream
-            <div class="card-footer"><center><a role="button" class="btn btn-success" href="{{user_json.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a></center></div>
-=======
             <div class="card-footer">
                 <center>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profile_edit">Edit Profile <i class="fas fa-cogs"></i></button>
                     <a role="button" class="btn btn-success" href="{{user_json.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
                 </center>
             </div>
-
-
             <!-- The Modal -->
                 <div class="modal" id="profile_edit">
                 <div class="modal-dialog">
@@ -73,23 +65,23 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form action="/profile_update/" method="POST">
-                           {% csrf_token %}
-                           <center><h3>Account Settings</h3></center>
-                           <p></p>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text">Gender</span>
+                            {% csrf_token %}
+                            <center><h3>Account Settings</h3></center>
+                            <p></p>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">Gender</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="{{user_json.gender}}" name='gender'>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{user_json.gender}}" name='gender'>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text">Age</span>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">Age</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="{{user_json.age}}" name='age' maxlength="2">
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{user_json.age}}" name='age' maxlength="2">
-                            </div>
-                           <center><h3>Matching Preferences</h3></center>
-                           <p></p>
+                            <center><h3>Matching Preferences</h3></center>
+                            <p></p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text">Minimum Age</span>
@@ -119,11 +111,4 @@
                 </div>
                 </div>
 
-
-
-
-
-
-
->>>>>>> Stashed changes
         </div>
