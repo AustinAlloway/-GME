@@ -641,13 +641,13 @@ if len(sys.argv) > 1:
             pp.pprint(elem)
 
     if sys.argv[1] == '2':
-        print(add_user(sys.argv[2]))
+        pp.pprint(add_user(sys.argv[2]))
 
     if sys.argv[1] == '3':
-        print(find_user(sys.argv[2]))
+        pp.pprint(find_user(sys.argv[2]))
 
     if sys.argv[1] == '4':
-        print(check_username(sys.argv[2]))
+        pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
         set_sp_profile("aca33334", "https://open.spotify.com/user/tuggareutangranser")
