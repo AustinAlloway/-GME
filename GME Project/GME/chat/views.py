@@ -8,19 +8,34 @@ from twilio.jwt.access_token.grants import ChatGrant
 
 from .models import Room
 
+#############################################
+# Initializes fake usernames for identities #
+#############################################
 fake = Faker()
 
-
+###################################################################################################
+# Request Type: GET                                                                               #
+# Route Explination: sets the rooms set to all available Room objects and renders                 #
+#                    to 'chat' app index.html which is the "lobby"                                #
+###################################################################################################
 def all_rooms(request):
     rooms = Room.objects.all()
     return render(request, 'chat/index.html', {'rooms': rooms})
 
-
+###################################################################################################
+# Request Type: GET                                                                               #
+# Route Explination: sets the rooms to the specific room slug and renders                         #
+#                    to 'chat' app room_detail.html which is the "chatroom" instance              #
+###################################################################################################
 def room_detail(request, slug):
     room = Room.objects.get(slug=slug)
     return render(request, 'chat/room_detail.html', {'room': room})
 
-
+###################################################################################################
+# Request Type: GET                                                                               #
+# Route Explination: initializes the identity of the user and grants them access to twilio        #                 #
+#                    credentials if correct to corresponding token of account instance            #
+###################################################################################################
 def token(request):
     identity = request.GET.get('identity', fake.user_name())
     device_id = request.GET.get('device', 'default')  # unique device ID
