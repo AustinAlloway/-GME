@@ -632,6 +632,8 @@ def remove_favorited_user(user, favUser):
 # RETURNS: No return                                                SAMPLE DATA)    #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
 def reset_all_match_pref_genders():
     try:
         for elem in find_all():
