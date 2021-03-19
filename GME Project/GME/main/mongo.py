@@ -3,7 +3,9 @@
 import pymongo
 from bson.objectid import ObjectId
 import pprint as pp
+import json
 import sys
+from numpy import random
 
 client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 try:
@@ -601,6 +603,45 @@ def check_username(username):
         return False
 
 #####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: adds favUser to user's favorite_user list                               #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def add_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$addToSet": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: removes favUser from user's favorite_user list                          #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def remove_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$pull": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: Rested all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def reset_all_match_pref_genders():
+    try:
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {"gender": genders}}})
+    except:
+        return False
+
+#####################################################################################
 # Param: Profile creation info                                                      #
 # Function: formats a user for database entry                                       #
 # RETURNS: Profile format                                                           #
@@ -650,7 +691,8 @@ if len(sys.argv) > 1:
         pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        set_sp_profile("aca33334", "https://open.spotify.com/user/tuggareutangranser")
+        #remove_favorited_user('msterrie0', 'nitbaba')
+        reset_all_match_pref_genders()
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
