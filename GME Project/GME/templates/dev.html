@@ -7,13 +7,15 @@
         <div class="d-flex" style="margin:20px;">
             {% for user in user_list %}
             <div class="p-2 mr-auto">
-                    <div class="card" style="width:200px">
+                    <div class="card bg-dark" style="width:200px; height:325px;">
                     <img class="card-img-top" src="{{user.profile_pic}}" alt="Card image" style="height:200px;width:200px;">
                     <div class="card-body">
-                        <h4 class="card-title">{{user.displayname}}</h4>
+                        <h5 class="card-title" style="text-align:center;color:white;">{{user.displayname}}</h5>
+                    </div>
+                    <div class="card-footer">
                         <form action="/devp/{{user.username}}" method="POST">
                         {% csrf_token %}
-                        <button type="button" class="btn btn-outline-light" onclick="form.submit()">See Profile</button>
+                        <center><button type="button" class="btn btn-info" onclick="form.submit()">See Profile</button></center>
                         </form>
                     </div>
                 </div>

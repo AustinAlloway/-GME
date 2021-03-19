@@ -2,7 +2,7 @@
 
 import pymongo
 from bson.objectid import ObjectId
-import pprint
+import pprint as pp
 import sys
 
 client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
@@ -638,16 +638,16 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
         for elem in find_all():
-            print(elem)
+            pp.pprint(elem)
 
     if sys.argv[1] == '2':
-        print(add_user(sys.argv[2]))
+        pp.pprint(add_user(sys.argv[2]))
 
     if sys.argv[1] == '3':
-        print(find_user(sys.argv[2]))
+        pp.pprint(find_user(sys.argv[2]))
 
     if sys.argv[1] == '4':
-        print(check_username(sys.argv[2]))
+        pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
         set_sp_profile("aca33334", "https://open.spotify.com/user/tuggareutangranser")

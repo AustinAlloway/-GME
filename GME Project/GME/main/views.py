@@ -8,7 +8,7 @@ import json, requests, base64
 from . import spotify as sp
 from . import mongo as m
 
-authorized_users = ['k7lw']
+authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn']
 
 #####################################################################################
 # Param: the default request object and user profiles json                          #
@@ -20,7 +20,7 @@ authorized_users = ['k7lw']
 def load_profile(request,profile_json):
     try:
         request.session['profile']['username'] = profile_json['username']
-        request.session['profile']['display_name'] = profile_json['displayname']
+        request.session['profile']['displayname'] = profile_json['displayname']
         request.session['profile']['spotify_username'] = profile_json['spotify_username']
         request.session['profile']['sp_profile'] = profile_json['sp_profile']
         request.session['profile']['access_token'] = profile_json['access_token']
@@ -81,13 +81,13 @@ def log_auth(request):
         age=18,
         gender='N/A',
         country=sp_json['country'],
-        match_pref={
+        match_pref=[{
             'age_min': 18,
 	        'age_max': 30,
 	        'gender': [ 'Male', 'Female']
-        },
+        }],
         favorite_users=[],
-        music_profile=sp.get_music_profile_spotify(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token']),
+        music_profile=[sp.get_music_profile_spotify(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token'])],
         )
         m.add_user(profile_json)
         load_profile(request,profile_json=profile_json)
@@ -99,7 +99,7 @@ def log_auth(request):
     request.session['profile']['profile_pic'] = sp_json['images'][0]['url']
     request.session['profile']['country'] = sp_json['country']
     request.session['profile']['sp_profile'] = sp_json['external_urls']['spotify']
-    request.session['profile']['music_profile'] = sp.get_music_profile_spotify(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])
+    request.session['profile']['music_profile'] = [sp.get_music_profile_spotify(sp.get_top_track_list(request.session['profile']['access_token']), request.session['profile']['access_token'])]
 
     return render(request, 'home.html')
 
@@ -131,6 +131,23 @@ def anon_genre_submit(request):
 
 def profile(request, name):
     if ('profile' in request.session) and (name == request.session['profile']['username']):
+        return render(request, 'profile.html',{'user_json':request.session['profile']})
+    else:
+        return render(request, 'home.html')
+
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: updates profile in the database                                              #
+###################################################################################################
+
+def profile_update(request):
+    if ('profile' in request.session):
+        print(request.POST.getlist('gender'))
+        #if (isinstance(request.POST.getlist('age'), int) and len(request.POST.getlist('age')) > 0):
+        print(int(request.POST.getlist('age')[0]))
+        print(request.POST.getlist('pref_age_min'))
+        print(request.POST.getlist('pref_age_max'))
+        #load_profile(request,m.find_user(request.session['profile']['username']))
         return render(request, 'profile.html',{'user_json':request.session['profile']})
     else:
         return render(request, 'home.html')
