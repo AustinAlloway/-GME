@@ -9,12 +9,17 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+# Library Imports 
 from pathlib import Path
 import os
+from dotenv import load_dotenv 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Loads in '.env' file
+dotenv_path = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# Twilio environment variables to connect to account
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', None)
+TWILIO_API_KEY = os.environ.get('TWILIO_API_KEY', None)
+TWILIO_API_SECRET = os.environ.get('TWILIO_API_SECRET', None)
+TWILIO_CHAT_SERVICE_SID = os.environ.get('TWILIO_CHAT_SERVICE_SID', None)
+
 STATIC_ROOT = '/'
 # where django will look for Static locally
 
