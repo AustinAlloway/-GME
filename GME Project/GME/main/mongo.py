@@ -628,19 +628,40 @@ def remove_favorited_user(user, favUser):
 
 #####################################################################################
 # Param: N/A                                                                        #
-# Function: Rested all user's gender preferences to random genders (USE ONLY WITH   #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
 # RETURNS: No return                                                SAMPLE DATA)    #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
 #
 # CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
-def reset_all_match_pref_genders():
+def randomize_all_match_pref_genders():
     try:
         for elem in find_all():
             k = random.randint(1, 3) 
             genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
             collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {"gender": genders}}})
     except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: Randomize all user's favorited user's list                (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_favorite_users():
+    all_users = []
+    try:
+        for elem in find_all():
+            all_users.append(elem['username'])
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            fav_users = json.loads(json.dumps(random.choice(all_users, k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : { "favorite_users": fav_users}})
+    except:
+        print("false")
         return False
 
 #####################################################################################
@@ -693,8 +714,7 @@ if len(sys.argv) > 1:
         pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        #remove_favorited_user('msterrie0', 'nitbaba')
-        reset_all_match_pref_genders()
+        randomize_all_favorite_users()
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
