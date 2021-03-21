@@ -1,0 +1,130 @@
+<div class="card bg-dark ">
+            <div class="card-header" style="color:white;"><center><h3>Profile Details</h3></center></div>
+            <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-dark"><b>Spotify Username:</b> {{user_json.username}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Display Name:</b> {{user_json.displayname}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Email:</b> {{user_json.email}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Country:</b> {{user_json.country}}</li>
+                        <li class="list-group-item list-group-item-dark"><b>Gender:</b> {{user_json.gender}}</li>
+                        <li class="list-group-item list-group-item-secondary"><b>Age:</b> {{user_json.age}}</li>
+                        <ul class="list-group">
+                        </ul>
+                        <p id="barspacing"></p>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-dark"><center><h5>Match Preferences</h5></center></li>
+                            <li class="list-group-item list-group-item-secondary"><b>Age Minimum:</b> {{user_json.match_pref.0.age_min}}</li>
+                            <li class="list-group-item list-group-item-dark"><b>Age Maximum:</b> {{user_json.match_pref.0.age_max}}</li>
+                            <li class="list-group-item list-group-item-secondary"><b>Gender:</b>
+                            {% for gender in user_json.match_pref.0.gender %}
+                                {% if gender == user_json.match_pref.0.gender.0 %}
+                                    {{gender}}
+                                {% else %}
+                                    , {{gender}}
+                                {% endif %}
+                            {% endfor %}
+                            </li>
+                        </ul>
+                </div>
+                    <div class="col-8">
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.acousticness type="acousticness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.danceability type="danceability"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.energy type="energy"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.liveness type="liveness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.speechiness type="speechiness"%}
+                        <p id="barspacing"></p>
+                        {% include 'bars.html' with width=user_json.music_profile.0.valence type="valence"%}
+                        <p id="barspacing"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <center>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profile_edit">Edit Profile <i class="fas fa-cogs"></i></button>
+                    <a role="button" class="btn btn-success" href="{{user_json.sp_profile}}" target="_blank">Spotify Profile <i class="fab fa-spotify"></i></a>
+                </center>
+            </div>
+            <!-- The Modal -->
+                <div class="modal" id="profile_edit">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Profile Settings</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="/profile_update/" method="POST">
+                            {% csrf_token %}
+                            <center><h3>Account Settings</h3></center>
+                            <p></p>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">Gender</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="{{user_json.gender}}" name='gender'>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">Age</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="{{user_json.age}}" name='age' maxlength="2">
+                                </div>
+                            <center><h3>Matching Preferences</h3></center>
+                            <p></p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">Minimum Age</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{user_json.match_pref.0.age_min}}" name='pref_age_min'  maxlength="2">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">Maximum Age</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{user_json.match_pref.0.age_max}}" name='pref_age_max'  maxlength="2">
+                            </div>
+                                <div class="d-flex flex-row" id="flex_check_gender_pref">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Gender(s)</span>
+                                </div>
+                                <div class="d-flex flex-row" style="padding:20px;">
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Male">Male
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Female">Female
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Non">Non-Binary
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" onclick="form.submit()" data-dismiss="modal">Save Settings</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+
+                    </div>
+                </div>
+                </div>
+
+        </div>

@@ -41,7 +41,7 @@
                 <form action="/logout/" method="POST">
                   {% csrf_token %}
                     <div class="btn-group">
-                    <a class="btn btn-outline-light" role="button" href="/profile/">Profile</a>
+                    <a class="btn btn-outline-light" role="button" href="/profile/{{request.session.profile.username}}">Profile</a>
                     <button type="button" class="btn btn-outline-light" onclick="form.submit()">Logout</button>
                   </div>
                 </form>
@@ -52,7 +52,7 @@
               <div class="btn-group" id="nav_btn_group">
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/">Home Page</a>
                   <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Match Making</a>
-                  <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Listening Party</a>
+                  <a class="btn btn-outline-light" id="navbutton" role="button" href="/chat/">Listening Party</a>
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/dev/">Developement Page</a>
               </div>
             </div>

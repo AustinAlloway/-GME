@@ -2,8 +2,10 @@
 
 import pymongo
 from bson.objectid import ObjectId
-import pprint
+import pprint as pp
+import json
 import sys
+from numpy import random
 
 client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 try:
@@ -52,7 +54,35 @@ collection = db.users
 #			'tempo': 0.5,
 #			'time_signature': 0.5,
 #			'valence': 0.5
-#	      }}
+#	     }
+# }
+
+# ---------------------------
+# Functions Expected per Page
+# ---------------------------
+#
+# Home Page:
+#   - add_user()
+#
+# Profile Page:
+#   - set_username()
+#   - set_displayname()
+#   - get_sp_username()
+#   - set_profile_pic()
+#   - set_match_pref_minAge()
+#   - set_match_pref_maxAge()
+#   - set_match_pref_gender()
+#   - get_favorite_users()
+#   - get_music_profile()
+#
+# Match Making Page:
+#   - get_matches_age_range()
+
+
+
+#
+#   Getter Functions
+#
 
 #####################################################################################
 # Param: none                                                                       #
@@ -87,6 +117,21 @@ def find_one():
 def find_user(user):
     try:
         return(collection.find_one({ 'username': user}))
+    except:
+        return False
+
+#####################################################################################
+# Param: username of User                                                           #
+# Function: get user profile of denoted user                                        #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def user_exist(user):
+    try:
+        for user_data in find_all():
+            if(user == user_data['username']):
+                return True
+        return False
     except:
         return False
 
@@ -204,7 +249,7 @@ def get_age(username):
 # RETURNS: profile pic link as JSON                                                 #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def get_email(username):
+def get_profile_pic(username):
     try:
         return collection.find_one({"username": username}, {"profile_pic": 1, "_id": 0})
     except:
@@ -317,6 +362,232 @@ def get_music_profile_attribute(username, attribute):
         return collection.find_one({"username": username}, {"music_profile": {attribute: 1}, "_id": 0})
     except:
         return False
+
+#
+#   Setter Functions
+#
+
+#####################################################################################
+# Param: username as String, desired key name as string, value as JSON              #
+# Function: update user's profile key value by denoted key and value                #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_keys_value(username, key, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : {key: value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, List of favorited Users as JSON                        #
+# Function: Updates user's entire favorited users list                              #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_favorite_users(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "favorite_users": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, gender as JSON array                                   #
+# Function: updates user's gender preference                                        #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_match_pref_gender(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "match_pref": {"gender": value}}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Max age as int                                         #
+# Function: set's user match pref.'s max age                                        #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_match_pref_maxAge(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "match_pref": {"age_max": value}}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Min age as int                                         #
+# Function: set's user match pref.'s min age                                        #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_match_pref_minAge(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "match_pref": {"age_min": value}}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, match preferences as JSON                              #
+# Function: Updates user's entire match preferences                                 #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_match_pref(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "match_pref": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Country as String                                      #
+# Function: Updates user's country                                                  #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_country(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "country": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Gender as String                                       #
+# Function: Sets user's gender                                                      #
+# RETURNS: No Return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_gender(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "gender": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, age as int                                             #
+# Function: sets user's age                                                         #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_age(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "age": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Link to picture as String                              #
+# Function: Updates user's profile picture                                          #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_profile_pic(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "profile_pic": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, email as String                                        #
+# Function: updates user's email                                                    #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_email(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "email": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, refresh token as string                                #
+# Function: sets user's sporitfy refresh token                                      #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_refresh_token(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "refresh_token": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, access token as string                                 #
+# Function: sets user's spotify access token                                        #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_access_token(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "access_token": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, profile link as string                                 #
+# Function: Set user's spotify profile link                                         #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_sp_profile(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "sp_profile": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, spotify username as string                             #
+# Function: set user's spotify username                                             #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_sp_username(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "spotify_username": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: username as String, Display name as string                                 #
+# Function: set user's displayname                                                  #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_displayname(username, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "displayname": value}})
+    except:
+        return False
+
+#####################################################################################
+# Param: ObjectID of User, username as string                                       #
+# Function: sets user's GME username                                                #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_username(username, value):
+    try:
+        collection.update_one( {"username": username}, { '$set' : { "username": value}})
+    except:
+        return False
+
+        
+#####################################################################################
+# Param: username as String, attribute key as string, value as float                #
+# Function: Update denoted user's single music profile attribute value              #
+# RETURNS: No return                                                  #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def set_music_profile_attribute(username, attribute, value):
+    try:
+        collection.update_one({"username": username}, { '$set' : { "music_profile": {attribute: value}}})
+    except:
+        return False
+
+#
+#   Generaly Misc. Functions
+#
+
 #####################################################################################
 # Param: user profile as JSON                                                       #
 # Function: Adds user to database                                                   #
@@ -369,6 +640,121 @@ def check_username(username):
     else:
         return False
 
+#####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: adds favUser to user's favorite_user list                               #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def add_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$addToSet": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: removes favUser from user's favorite_user list                          #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def remove_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$pull": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_match_pref_genders():
+    try:
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {"gender": genders}}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: Randomize all user's favorited user's list             (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_favorite_users():
+    all_users = []
+    try:
+        for elem in find_all():
+            all_users.append(elem['username'])
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            fav_users = json.loads(json.dumps(random.choice(all_users, k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : { "favorite_users": fav_users}})
+    except:
+        print("false")
+        return False
+
+#####################################################################################
+# Param: minAge as int, maxAge as int                                               #
+# Function: Returns username and age of all users within age range                  #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def get_matches_age_range(minAge, maxAge):
+    try:
+        return collection.find({"age": {"$gte": minAge, "$lte": maxAge}}, {"username": 1, "age":1, "_id":0})
+    except:
+        return False
+
+#####################################################################################
+# Param: Profile creation info                                                      #
+# Function: formats a user for database entry                                       #
+# RETURNS: Profile format                                                           #
+#####################################################################################
+def profile_formatter(username,display_name,spotify_username,sp_profile,access_token,refresh_token,email,
+profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
+
+    return {
+        'username': username,
+        'displayname': display_name, 
+        'spotify_username': spotify_username,
+        'sp_profile': sp_profile,
+        'access_token': access_token,
+        'refresh_token': refresh_token,
+        'email': email,
+        'profile_pic': profile_pic,
+        'age': age,
+        'gender': gender,
+        'country': country,
+        'match_pref': match_pref,      
+        'favorite_users': favorite_users,
+        'music_profile': music_profile
+        }
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: adds mock data into database                                            #
+# RETURNS: Confirmation message                                                     #
+#####################################################################################
+def data_add():
+    with open('../static/GME_MOCK_DATA.json') as mock:
+        data = json.load(mock)
+
+        for i in data:
+            if(user_exist(i['username']) == False):
+                add_user(i)
+            else:
+                print("User exist")
+    
+    mock.close()
 
 #####################################################################################
 #  This is                                                                          #
@@ -381,20 +767,20 @@ def check_username(username):
 ## example terminal command: $ python3 mongo.py 1
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
-        for elem in find_all():
-            print(elem)
+        for elem in get_matches_age_range(18, 20):
+            pp.pprint(elem)
 
     if sys.argv[1] == '2':
-        print(add_user())
+        pp.pprint(add_user(sys.argv[2]))
 
     if sys.argv[1] == '3':
-        print(find_user(sys.argv[2]))
+        pp.pprint(find_user(sys.argv[2]))
 
     if sys.argv[1] == '4':
-        print(check_username(sys.argv[2]))
+        pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        print(get_keys_value("aca33334", "match_pref"))
+        pp.pprint(get_matches_age_range(17, 19))
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
