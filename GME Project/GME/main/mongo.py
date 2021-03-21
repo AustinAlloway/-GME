@@ -98,6 +98,21 @@ def find_user(user):
         return False
 
 #####################################################################################
+# Param: username of User                                                           #
+# Function: get user profile of denoted user                                        #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def user_exist(user):
+    try:
+        for user_data in find_all():
+            if(user == user_data['username']):
+                return True
+        return False
+    except:
+        return False
+
+#####################################################################################
 # Param: username as String, desired key name as string                             #
 # Function: Return's value for given keys. Generalized getter for non-nested values.#
 # RETURNS: key/value as JSON                                                        #
@@ -689,6 +704,22 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
         'music_profile': music_profile
         }
 
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: adds mock data into database                                            #
+# RETURNS: Confirmation message                                                     #
+#####################################################################################
+def data_add():
+    with open('../static/GME_MOCK_DATA.json') as mock:
+        data = json.load(mock)
+
+        for i in data:
+            if(user_exist(i['username']) == False):
+                add_user(i)
+            else:
+                print("User exist")
+    
+    mock.close()
 
 #####################################################################################
 #  This is                                                                          #
@@ -715,6 +746,9 @@ if len(sys.argv) > 1:
     
     if sys.argv[1] == '5':
         randomize_all_favorite_users()
+
+    if sys.argv[1] == '6':
+        data_add()
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")

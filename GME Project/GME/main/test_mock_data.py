@@ -38,4 +38,4 @@ user1 = {
     ]
 }
 
-mongo.add_user(user1)
+print(mongo.user_exist('k7lw'))
