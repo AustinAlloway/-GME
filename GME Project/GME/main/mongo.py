@@ -57,6 +57,29 @@ collection = db.users
 #	     }
 # }
 
+# ---------------------------
+# Functions Expected per Page
+# ---------------------------
+#
+# Home Page:
+#   - add_user()
+#
+# Profile Page:
+#   - set_username()
+#   - set_displayname()
+#   - get_sp_username()
+#   - set_profile_pic()
+#   - set_match_pref_minAge()
+#   - set_match_pref_maxAge()
+#   - set_match_pref_gender()
+#   - get_favorite_users()
+#   - get_music_profile()
+#
+# Match Making Page:
+#   - get_matches_age_range()
+
+
+
 #
 #   Getter Functions
 #
@@ -226,7 +249,7 @@ def get_age(username):
 # RETURNS: profile pic link as JSON                                                 #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def get_prof_pic(username):
+def get_profile_pic(username):
     try:
         return collection.find_one({"username": username}, {"profile_pic": 1, "_id": 0})
     except:
@@ -660,7 +683,7 @@ def randomize_all_match_pref_genders():
 
 #####################################################################################
 # Param: N/A                                                                        #
-# Function: Randomize all user's favorited user's list                (USE ONLY WITH   #
+# Function: Randomize all user's favorited user's list             (USE ONLY WITH   #
 # RETURNS: No return                                                SAMPLE DATA)    #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
@@ -677,6 +700,18 @@ def randomize_all_favorite_users():
             collection.update_one({'username': elem['username']}, { '$set' : { "favorite_users": fav_users}})
     except:
         print("false")
+        return False
+
+#####################################################################################
+# Param: minAge as int, maxAge as int                                               #
+# Function: Returns username and age of all users within age range                  #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def get_matches_age_range(minAge, maxAge):
+    try:
+        return collection.find({"age": {"$gte": minAge, "$lte": maxAge}}, {"username": 1, "age":1, "_id":0})
+    except:
         return False
 
 #####################################################################################
@@ -732,7 +767,7 @@ def data_add():
 ## example terminal command: $ python3 mongo.py 1
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
-        for elem in find_all():
+        for elem in get_matches_age_range(18, 20):
             pp.pprint(elem)
 
     if sys.argv[1] == '2':
@@ -745,10 +780,7 @@ if len(sys.argv) > 1:
         pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        randomize_all_favorite_users()
-
-    if sys.argv[1] == '6':
-        data_add()
+        pp.pprint(get_matches_age_range(17, 19))
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
