@@ -8,7 +8,7 @@ import json, requests, base64
 from . import spotify as sp
 from . import mongo as m
 
-authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn']
+authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767']
 
 #####################################################################################
 # Param: the default request object and user profiles json                          #

@@ -677,7 +677,7 @@ def randomize_all_match_pref_genders():
         for elem in find_all():
             k = random.randint(1, 3) 
             genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
-            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {"gender": genders}}})
+            collection.update_one({'username': elem['username']}, { '$set' : [{ "match_pref": {"gender": genders}}]})
     except:
         return False
 
