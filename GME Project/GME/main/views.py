@@ -83,7 +83,7 @@ def log_auth(request):
         country=sp_json['country'],
         match_pref=[{
             'age_min': 18,
-	        'age_max': 30,
+	        'age_max': 55,
 	        'gender': [ 'Male', 'Female']
         }],
         favorite_users=[],
@@ -131,6 +131,7 @@ def anon_genre_submit(request):
 
 def profile(request, name):
     if ('profile' in request.session) and (name == request.session['profile']['username']):
+        load_profile(request,m.find_user(request.session['profile']['username']))
         return render(request, 'profile.html',{'user_json':request.session['profile']})
     else:
         return render(request, 'home.html')
@@ -142,12 +143,32 @@ def profile(request, name):
 
 def profile_update(request):
     if ('profile' in request.session):
-        print(request.POST.getlist('gender'))
-        #if (isinstance(request.POST.getlist('age'), int) and len(request.POST.getlist('age')) > 0):
-        print(int(request.POST.getlist('age')[0]))
-        print(request.POST.getlist('pref_age_min'))
-        print(request.POST.getlist('pref_age_max'))
-        #load_profile(request,m.find_user(request.session['profile']['username']))
+        print(m.get_match_pref(request.session['profile']['username']))
+        match_pref = m.get_match_pref(request.session['profile']['username'])['match_pref']
+        if(len(request.POST.getlist('gender')[0]) > 0):
+            m.set_gender(request.session['profile']['username'],request.POST.getlist('gender')[0])
+        try:
+            age_int = int(request.POST.getlist('age')[0])
+            if (len(request.POST.getlist('age')) > 0):
+                m.set_age(request.session['profile']['username'],age_int)
+        except:
+            pass
+        try:
+            age_int = int(request.POST.getlist('pref_age_min')[0])
+            if (len(request.POST.getlist('pref_age_min')) > 0):
+                match_pref[0]['age_min'] = age_int
+        except:
+            pass
+        try:
+            age_int = int(request.POST.getlist('pref_age_max')[0])
+            if (len(request.POST.getlist('pref_age_max')) > 0):
+                match_pref[0]['age_max'] = age_int
+        except:
+            pass
+        if(len(request.POST.getlist('pref_gender')) > 0):
+            match_pref[0]['gender'] = request.POST.getlist('pref_gender')
+        m.set_match_pref(request.session['profile']['username'], match_pref)
+        load_profile(request,m.find_user(request.session['profile']['username']))
         return render(request, 'profile.html',{'user_json':request.session['profile']})
     else:
         return render(request, 'home.html')
