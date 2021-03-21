@@ -3,7 +3,9 @@
 import pymongo
 from bson.objectid import ObjectId
 import pprint as pp
+import json
 import sys
+from numpy import random
 
 client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 try:
@@ -55,6 +57,29 @@ collection = db.users
 #	     }
 # }
 
+# ---------------------------
+# Functions Expected per Page
+# ---------------------------
+#
+# Home Page:
+#   - add_user()
+#
+# Profile Page:
+#   - set_username()
+#   - set_displayname()
+#   - get_sp_username()
+#   - set_profile_pic()
+#   - set_match_pref_minAge()
+#   - set_match_pref_maxAge()
+#   - set_match_pref_gender()
+#   - get_favorite_users()
+#   - get_music_profile()
+#
+# Match Making Page:
+#   - get_matches_age_range()
+
+
+
 #
 #   Getter Functions
 #
@@ -92,6 +117,21 @@ def find_one():
 def find_user(user):
     try:
         return(collection.find_one({ 'username': user}))
+    except:
+        return False
+
+#####################################################################################
+# Param: username of User                                                           #
+# Function: get user profile of denoted user                                        #
+# RETURNS: user profile                                                             #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def user_exist(user):
+    try:
+        for user_data in find_all():
+            if(user == user_data['username']):
+                return True
+        return False
     except:
         return False
 
@@ -209,7 +249,7 @@ def get_age(username):
 # RETURNS: profile pic link as JSON                                                 #
 # ON FAIL: Returns Falso                                                            #
 #####################################################################################
-def get_prof_pic(username):
+def get_profile_pic(username):
     try:
         return collection.find_one({"username": username}, {"profile_pic": 1, "_id": 0})
     except:
@@ -601,6 +641,80 @@ def check_username(username):
         return False
 
 #####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: adds favUser to user's favorite_user list                               #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def add_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$addToSet": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: user as String (username), favUser as String (username)                    #
+# Function: removes favUser from user's favorite_user list                          #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def remove_favorited_user(user, favUser):
+    try: 
+        collection.update_many({"username": user}, { "$pull": {"favorite_users": favUser}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_match_pref_genders():
+    try:
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : [{ "match_pref": {"gender": genders}}]})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: Randomize all user's favorited user's list             (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_favorite_users():
+    all_users = []
+    try:
+        for elem in find_all():
+            all_users.append(elem['username'])
+        for elem in find_all():
+            k = random.randint(1, 3) 
+            fav_users = json.loads(json.dumps(random.choice(all_users, k).tolist()))
+            collection.update_one({'username': elem['username']}, { '$set' : { "favorite_users": fav_users}})
+    except:
+        print("false")
+        return False
+
+#####################################################################################
+# Param: minAge as int, maxAge as int                                               #
+# Function: Returns username and age of all users within age range                  #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def get_matches_age_range(minAge, maxAge):
+    try:
+        return collection.find({"age": {"$gte": minAge, "$lte": maxAge}}, {"username": 1, "age":1, "_id":0})
+    except:
+        return False
+
+#####################################################################################
 # Param: Profile creation info                                                      #
 # Function: formats a user for database entry                                       #
 # RETURNS: Profile format                                                           #
@@ -625,6 +739,22 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
         'music_profile': music_profile
         }
 
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: adds mock data into database                                            #
+# RETURNS: Confirmation message                                                     #
+#####################################################################################
+def data_add():
+    with open('../static/GME_MOCK_DATA.json') as mock:
+        data = json.load(mock)
+
+        for i in data:
+            if(user_exist(i['username']) == False):
+                add_user(i)
+            else:
+                print("User exist")
+    
+    mock.close()
 
 #####################################################################################
 #  This is                                                                          #
@@ -637,7 +767,7 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
 ## example terminal command: $ python3 mongo.py 1
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
-        for elem in find_all():
+        for elem in get_matches_age_range(18, 20):
             pp.pprint(elem)
 
     if sys.argv[1] == '2':
@@ -650,7 +780,7 @@ if len(sys.argv) > 1:
         pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        set_sp_profile("aca33334", "https://open.spotify.com/user/tuggareutangranser")
+        pp.pprint(get_matches_age_range(17, 19))
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
