@@ -94,11 +94,27 @@
                                 </div>
                                 <input type="text" class="form-control" placeholder="{{user_json.match_pref.0.age_max}}" name='pref_age_max'  maxlength="2">
                             </div>
-                            <div class="input-group mb-3">
+                                <div class="d-flex flex-row" id="flex_check_gender_pref">
                                 <div class="input-group-prepend">
-                                <span class="input-group-text">Gender(s)</span>
+                                    <span class="input-group-text">Gender(s)</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{user_json.match_pref.0.gender}}" name='pref_gender'>
+                                <div class="d-flex flex-row" style="padding:20px;">
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Male">Male
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Female">Female
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="pref_gender"value="Non">Non-Binary
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                     </div>
                         <div class="modal-footer">
