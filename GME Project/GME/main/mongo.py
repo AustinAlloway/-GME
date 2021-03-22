@@ -6,6 +6,7 @@ import pprint as pp
 import json
 import sys
 from numpy import random
+import re
 
 client = pymongo.MongoClient("mongodb+srv://admin:tothemoon@userdata.jbuat.mongodb.net/gme?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 try:
@@ -384,7 +385,7 @@ def set_favorite_users(username, value):
 #####################################################################################
 def set_match_pref_gender(username, value):
     try:
-        collection.update_one({"username": username}, { '$set' : { "match_pref": {"gender": value}}})
+        collection.update_one({"username": username}, { '$set' : { "match_pref.gender": value}})
     except:
         return False
 
@@ -396,7 +397,7 @@ def set_match_pref_gender(username, value):
 #####################################################################################
 def set_match_pref_maxAge(username, value):
     try:
-        collection.update_one({"username": username}, { '$set' : { "match_pref": {"age_max": value}}})
+        collection.update_one({"username": username}, { '$set' : { "match_pref.age_max": value}})
     except:
         return False
 
@@ -408,7 +409,7 @@ def set_match_pref_maxAge(username, value):
 #####################################################################################
 def set_match_pref_minAge(username, value):
     try:
-        collection.update_one({"username": username}, { '$set' : { "match_pref": {"age_min": value}}})
+        collection.update_one({"username": username}, { '$set' : { "match_pref.age_min": value}})
     except:
         return False
 
@@ -657,12 +658,60 @@ def remove_favorited_user(user, favUser):
 #####################################################################################
 #
 # CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_match_pref_empty():
+    try:
+        for elem in find_all():
+            k = random.randint(18, 26)
+            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {}}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
 def randomize_all_match_pref_genders():
     try:
         for elem in find_all():
             k = random.randint(1, 3) 
             genders = json.loads(json.dumps(random.choice(['Male', 'Female', 'Non'], k).tolist()))
-            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref": {"gender": genders}}})
+            collection.update_one({'username': 'k7lw'}, { '$set' : { "match_pref.gender": genders}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_match_pref_maxAge():
+    try:
+        for elem in find_all():
+            k = random.randint(26, 49)
+            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref.age_max": k}})
+    except:
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_match_pref_minAge():
+    try:
+        for elem in find_all():
+            k = random.randint(18, 26)
+            collection.update_one({'username': elem['username']}, { '$set' : { "match_pref.age_min": k}})
     except:
         return False
 
@@ -680,7 +729,7 @@ def randomize_all_favorite_users():
         for elem in find_all():
             all_users.append(elem['username'])
         for elem in find_all():
-            k = random.randint(1, 3) 
+            k = random.randint(1, 9) 
             fav_users = json.loads(json.dumps(random.choice(all_users, k).tolist()))
             collection.update_one({'username': elem['username']}, { '$set' : { "favorite_users": fav_users}})
     except:
@@ -696,6 +745,18 @@ def randomize_all_favorite_users():
 def get_matches_age_range(minAge, maxAge):
     try:
         return collection.find({"age": {"$gte": minAge, "$lte": maxAge}}, {"username": 1, "age":1, "_id":0})
+    except:
+        return False
+
+#####################################################################################
+# Param: minAge as int, maxAge as int                                               #
+# Function: Returns username and age of all users within age range                  #
+# RETURNS: No return                                                                #
+# ON FAIL: Returns Falso             !!BORKED                                       #
+#####################################################################################
+def output_formatter_integer():
+    try:
+        return re.sub(r'\}*$','',re.sub(r'^.*:\s\'?', '', json.dumps(get_keys_value("nitbaba", "match_pref"))))
     except:
         return False
 
@@ -725,6 +786,9 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
         }
 
 
+
+
+
 #####################################################################################
 #  This is                                                                          #
 #                  Just For                                                         #
@@ -736,20 +800,20 @@ profile_pic,age,gender,country,match_pref,favorite_users,music_profile):
 ## example terminal command: $ python3 mongo.py 1
 if len(sys.argv) > 1:
     if sys.argv[1] == '1':
-        for elem in get_matches_age_range(18, 20):
+        for elem in find_all():
             pp.pprint(elem)
 
     if sys.argv[1] == '2':
         pp.pprint(add_user(sys.argv[2]))
 
     if sys.argv[1] == '3':
-        pp.pprint(find_user(sys.argv[2]))
+        pp.pprint(get_match_pref_maxAge(sys.argv[2]))
 
     if sys.argv[1] == '4':
         pp.pprint(check_username(sys.argv[2]))
     
     if sys.argv[1] == '5':
-        pp.pprint(get_matches_age_range(17, 19))
+            pp.pprint(randomize_all_favorite_users())
 else:
     print("!!! No arguments given !!!")
     print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
