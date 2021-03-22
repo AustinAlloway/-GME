@@ -767,7 +767,7 @@ def get_matches_age_range(minAge, maxAge):
 # Param: minAge as int, maxAge as int                                               #
 # Function: Returns username and age of all users within age range                  #
 # RETURNS: No return                                                                #
-# ON FAIL: Returns Falso             !!BORKED                                       #
+# ON FAIL: Returns Falso             !!Not done yet                                 #
 #####################################################################################
 def output_formatter_integer():
     try:
