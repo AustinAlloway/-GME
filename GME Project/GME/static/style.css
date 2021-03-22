@@ -42,6 +42,12 @@ body{
   margin-left: auto;
   margin-right: auto;
 }
+#flex_check_gender_pref{
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
 #pro_log{
   padding:20px;
 }
