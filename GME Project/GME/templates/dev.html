@@ -2,15 +2,19 @@
 
 {% block body_content %}
 <div class="row">
-    <div class="col-1" id="padding_col"></div>
-    <div class="col-7">
-        <div class="d-flex" style="margin:20px;">
+    <div class="col-md-1" id="padding_col"></div>
+    <div class="col-md-9">
+            <div class="row" style="margin:20px;">
             {% for user in user_list %}
-            <div class="p-2 mr-auto">
-                    <div class="card bg-dark" style="width:200px; height:325px;">
+            {% if forloop.counter0|divisibleby:"4" %}
+            <div class ="row">
+            </div>
+            {% endif %}
+            <div class="col-md-2" style="margin:20px;">
+                <div class="card bg-dark" style="width:200px; height:350px;">
                     <img class="card-img-top" src="{{user.profile_pic}}" alt="Card image" style="height:200px;width:200px;">
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align:center;color:white;">{{user.displayname}}</h5>
+                        <h5 class="card-title" style="text-align:center;color:white;margin: auto;">{{user.displayname}}</h5>
                     </div>
                     <div class="card-footer">
                         <form action="/devp/{{user.username}}" method="POST">
@@ -21,7 +25,7 @@
                 </div>
             </div>
             {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

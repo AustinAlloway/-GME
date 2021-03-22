@@ -65,6 +65,7 @@ def login(request):
 
 def log_auth(request):
     oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost:8000/log_auth/")
+    print(oauth_dict)
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
     if (m.check_username(sp_json['id'])):
