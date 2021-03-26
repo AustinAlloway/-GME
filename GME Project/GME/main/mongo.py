@@ -816,36 +816,3 @@ def data_add():
                 print("User exist")
     
     mock.close()
-
-
-
-
-#####################################################################################
-#  This is                                                                          #
-#                  Just For                                                         #
-#                                   TESTING                                         #
-#  Running in terminal                                    purposes                  #
-#####################################################################################
-## Execute certain functions based on command line arguments
-## No arguments prints only successful or failed connection to database
-## example terminal command: $ python3 mongo.py 1
-if len(sys.argv) > 1:
-    if sys.argv[1] == '1':
-        for elem in find_all():
-            pp.pprint(elem)
-
-    if sys.argv[1] == '2':
-        pp.pprint(add_user(sys.argv[2]))
-
-    if sys.argv[1] == '3':
-        pp.pprint(get_match_pref_maxAge(sys.argv[2]))
-
-    if sys.argv[1] == '4':
-        pp.pprint(check_username(sys.argv[2]))
-    
-    if sys.argv[1] == '5':
-            pp.pprint(randomize_all_favorite_users())
-else:
-    print("!!! No arguments given !!!")
-    print("Run mongo.py with arguments 1, 2, 3, 4, etc.")
-    print('example terminal command: $ python3 mongo.py 1')
