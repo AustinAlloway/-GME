@@ -30,6 +30,35 @@ def menu():
 if len(sys.argv) > 1:  
     #add_user
     if sys.argv[1] == '1':
+        #nombre = str(input("Enter username: "))
+        pp.pprint(mongo.add_user(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '2':
+        #name = int(input("Enter username: "))
+        #objid = int(input("Enter user id: "))
+        pp.pprint(mongo.set_username(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '3':
+        #name = int(input("Enter username: "))
+        #objid = int(input("Enter user id: "))
+        pp.pprint(mongo.set_displayname(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '4':
+        pp.pprint(mongo.add_user(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '5':
+        pp.pprint(mongo.add_user(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '6':
+        pp.pprint(mongo.add_user(sys.argv[2]))
+        menu()
+
+    if sys.argv[1] == '7':
         pp.pprint(mongo.add_user(sys.argv[2]))
         menu()
 
@@ -42,7 +71,7 @@ if len(sys.argv) > 1:
         pp.pprint(mongo.check_username(sys.argv[2]))
     
 
-    if sys.argv[1] == '5':
+    if sys.argv[1] == '10':
         pp.pprint(mongo.get_matches_age_range(17, 19))
 
     #matches_age_range
@@ -51,10 +80,11 @@ if len(sys.argv) > 1:
         high = int(input("Enter maximum age: "))
         for elem in mongo.get_matches_age_range(low, high):
             pp.pprint(elem)
+        menu()
 
 else:
     print("_____________________________________________________________________")
     print("!!! No arguments given !!!")
     print(menu())
-    print('example terminal command: $ python3 test_data.py 1 [other arguments for specific function]')
+    print('example terminal command: $ python3 test_data.py 1')
 
