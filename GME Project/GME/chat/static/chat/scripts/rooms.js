@@ -70,7 +70,8 @@ $(function() {
         `Joined channel ${name} as <span class="me"> ${username} </span>.`,
         true
       );
-      channel.getMessages(30).then(processPage);
+      //channel.getMessages(30).then(processPage);
+      //^^^gets past 30 messages when joining a channel
     });
 
     // Listen for new messages sent to the channel
