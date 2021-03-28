@@ -82,11 +82,11 @@ def log_auth(request):
         age=18,
         gender='N/A',
         country=sp_json['country'],
-        match_pref=[{
+        match_pref={
             'age_min': 18,
 	        'age_max': 55,
 	        'gender': [ 'Male', 'Female']
-        }],
+        },
         favorite_users=[],
         music_profile=[sp.get_music_profile_spotify(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token'])],
         )
@@ -156,17 +156,17 @@ def profile_update(request):
         try:
             age_int = int(request.POST.getlist('pref_age_min')[0])
             if (len(request.POST.getlist('pref_age_min')) > 0):
-                match_pref[0]['age_min'] = age_int
+                match_pref['age_min'] = age_int
         except:
             pass
         try:
             age_int = int(request.POST.getlist('pref_age_max')[0])
             if (len(request.POST.getlist('pref_age_max')) > 0):
-                match_pref[0]['age_max'] = age_int
+                match_pref['age_max'] = age_int
         except:
             pass
         if(len(request.POST.getlist('pref_gender')) > 0):
-            match_pref[0]['gender'] = request.POST.getlist('pref_gender')
+            match_pref['gender'] = request.POST.getlist('pref_gender')
         m.set_match_pref(request.session['profile']['username'], match_pref)
         load_profile(request,m.find_user(request.session['profile']['username']))
         return render(request, 'profile.html',{'user_json':request.session['profile']})
@@ -185,7 +185,7 @@ def development_page(request):
         return render(request, 'unauthorized.html')
 
 
-def development_page_post(request,username):
+def development_page_post(request, username):
     if request.method == 'POST':
         if ('profile' in request.session and request.session['profile']['username'] in authorized_users):
             user_json = m.find_user(username)

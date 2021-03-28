@@ -15,11 +15,11 @@
                         <p id="barspacing"></p>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-dark"><center><h5>Match Preferences</h5></center></li>
-                            <li class="list-group-item list-group-item-secondary"><b>Age Minimum:</b> {{user_json.match_pref.0.age_min}}</li>
-                            <li class="list-group-item list-group-item-dark"><b>Age Maximum:</b> {{user_json.match_pref.0.age_max}}</li>
+                            <li class="list-group-item list-group-item-secondary"><b>Age Minimum:</b> {{user_json.match_pref.age_min}}</li>
+                            <li class="list-group-item list-group-item-dark"><b>Age Maximum:</b> {{user_json.match_pref.age_max}}</li>
                             <li class="list-group-item list-group-item-secondary"><b>Gender:</b>
-                            {% for gender in user_json.match_pref.0.gender %}
-                                {% if gender == user_json.match_pref.0.gender.0 %}
+                            {% for gender in user_json.match_pref.gender %}
+                                {% if gender == user_json.match_pref.gender.0 %}
                                     {{gender}}
                                 {% else %}
                                     , {{gender}}
