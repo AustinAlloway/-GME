@@ -764,18 +764,6 @@ def get_matches_age_range(minAge, maxAge):
         return False
 
 #####################################################################################
-# Param: minAge as int, maxAge as int                                               #
-# Function: Returns username and age of all users within age range                  #
-# RETURNS: No return                                                                #
-# ON FAIL: Returns Falso             !!Not done yet                                 #
-#####################################################################################
-def output_formatter_integer():
-    try:
-        return re.sub(r'\}*$','',re.sub(r'^.*:\s\'?', '', json.dumps(get_keys_value("nitbaba", "match_pref"))))
-    except:
-        return False
-
-#####################################################################################
 # Param: Profile creation info                                                      #
 # Function: formats a user for database entry                                       #
 # RETURNS: Profile format                                                           #
