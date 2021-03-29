@@ -77,3 +77,13 @@ body{
 #barspacing{
   height: 50px;
 }
+.flexcontainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.innerbox {
+  flex: 1 0 33%;
+  border: 5px solid #222;
+  min-height: 33.33vh;
+}
