@@ -37,7 +37,7 @@ def room_detail(request, slug):
 #                    credentials if correct to corresponding token of account instance            #
 ###################################################################################################
 def token(request):
-    identity = request.GET.get('identity', fake.user_name())
+    identity = request.GET.get('identity', request.session['profile']['displayname'])
     device_id = request.GET.get('device', 'default')  # unique device ID
 
     account_sid = settings.TWILIO_ACCOUNT_SID

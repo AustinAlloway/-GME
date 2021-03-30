@@ -55,7 +55,7 @@ def home(request):
 
 def login(request):
     if request.method == 'GET':
-        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://k7lw.com:8000/log_auth/"));
+        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost:8000/log_auth/"));
 
 
 ###################################################################################################
@@ -64,13 +64,14 @@ def login(request):
 ###################################################################################################
 
 def log_auth(request):
-    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://k7lw.com:8000/log_auth/")
-    print(oauth_dict)
+    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost:8000/log_auth/")
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
     if (m.check_username(sp_json['id'])):
         load_profile(request,m.find_user(sp_json['id']))
     else:
+        if (len(sp_json['images']) == 0):
+            sp_json['images'] = [{'url': "https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-download-logo-30.png"}]
         profile_json = m.profile_formatter(username = sp_json['id'],
         display_name= sp_json['display_name'],
         spotify_username=sp_json['id'],
