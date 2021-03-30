@@ -55,7 +55,7 @@ def home(request):
 
 def login(request):
     if request.method == 'GET':
-        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://localhost:8000/log_auth/"));
+        return redirect(sp.oauth_login_redirect("user-top-read user-read-email user-read-private","http://k7lw.com:8000/log_auth/"));
 
 
 ###################################################################################################
@@ -64,7 +64,7 @@ def login(request):
 ###################################################################################################
 
 def log_auth(request):
-    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost:8000/log_auth/")
+    oauth_dict = sp.oauth_access_token(request.GET['code'], "http://k7lw.com:8000/log_auth/")
     print(oauth_dict)
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
