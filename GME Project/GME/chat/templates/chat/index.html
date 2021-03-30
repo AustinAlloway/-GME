@@ -6,50 +6,114 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS Import List -->
   <link rel="shortcut icon" href="//www.twilio.com/marketing/bundles/marketing/img/favicons/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+  <!-- Script Import List -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- MAKE PRETTY SECTION -->
+  {% block head %}
+  <div class="jumbotron jumbotron-fluid justify-content-center" id="jumbotron_banner">
+  </div>
+
+  {% endblock %}
+  <div class="row justify-content-center" id="signin_navbar_row">
+    <div class="d-flex mx-auto" id="navbar_signin_flex">
+      {% if 'profile' not in request.session %}
+      <div class="col-3 mx-auto" id="signin_col">
+        <div class="d-flex-column justify-content-center" id="signin_flexbox">
+          <div class="btn-group">
+            <a role="button" class="btn btn-outline-light" href="/login/">Log in <i class="fab fa-spotify"></i></a>
+            <a role="button" class="btn btn-outline-light" href="https://www.spotify.com/us/signup/"
+              target="_blank">Sign Up <i class="fab fa-spotify"></i></a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      {{request.session.profile.disply_id}}
+      <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_thumb" />
+      <div class="d-flex" id="pro_log">
+        <form action="/logout/" method="POST">
+          {% csrf_token %}
+          <div class="btn-group">
+            <a class="btn btn-outline-light" role="button"
+              href="/profile/{{request.session.profile.username}}">Profile</a>
+            <button type="button" class="btn btn-outline-light" onclick="form.submit()">Logout</button>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+      <div class="col-9 mx-auto" id="navbar_col">
+        <div class="d-flex justify-content-end " id="navbar_flexbox">
+          <div class="btn-group" id="nav_btn_group">
+            <a class="btn btn-outline-light" id="navbutton" role="button" href="/">Home</a>
+            <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Match Making</a>
+            <a class="btn btn-outline-light" id="navbutton" role="button" href="/chat/">Listening Party</a>
+            <a class="btn btn-outline-light" id="navbutton" role="button" href="/dev/">Development Page</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <style>
     .rounded-edges {
       border-radius: 0.25rem;
     }
+
+    .footer {
+      position:relative;
+      height: 2px;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      background-color: transparent;
+    }
   </style>
-  <title>Listening Party Lobby</title>
+  <title>GME: Listening Party Lobby</title>
 </head>
 
 <body>
-  <section class="hero is-info">
-    <div class="hero-body has-text-centered">
-      <div class="container">
-        <h1 class="title is-2">
-          GME Listening Party
-        </h1>
-        <h2 class="subtitle is-5">
-          A place to come together and listen to music
-          <br/> Join one of our daily rooms below to start your listening adventure
-        </h2>
-      </div>
-    </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      <div class="columns">
+
+  <div class="container">
+    <h2 style="text-align: center; padding-bottom: 20px;">Welcome to the GME Listening Party Lobby</h2>
+    <img class="img-fluid, mx-auto d-block" style="padding-bottom: 5px;" src="https://www.jesusfreakhideout.com/listeningparty/listeningparty2018.png" alt="Chania"> 
+    <table class="table table, table-striped, table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th style="text-align: center; color: white;">Day of The Week</th>
+          <th style="text-align: center; color: white;">Theme</th>
+          <th style="text-align: center; color: white;">Join Party</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for room in rooms %}
-        <div class="column">
-          <div class="card rounded-edges">
-            <div class="card-content">
-              <p class="title is-4">{{room.name}}</p>
-              <div class="content">
-                <p>
-                  {{room.description}}
-                </p>
-                <a href="/rooms/{{room.slug}}" class="button">Join Room</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <tr>
+          <td style="text-align: center;">{{room.name}}</td>
+          <td style="text-align: center;">{{room.description}}</td>
+          <td style="text-align: center;"><a href="/rooms/{{room.slug}}" class="button">Join In</a></td>
+        </tr>
         {% endfor %}
-      </div>
-    </div>
-  </section>
+      </tbody>
+    </table>
+  </div>
 </body>
+
+<footer>
+  <div class="footer, border-top" style="padding-top: 1px;">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2021 Copyright:
+          <a> GME Inc.</a>
+        </div>
+        <!-- Copyright -->
+  </div>
+
+</footer>
+
 </html>
