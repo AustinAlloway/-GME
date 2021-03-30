@@ -1,0 +1,79 @@
+
+body{ 
+  background-image: url(background.jpg);
+  background-size: cover;
+    } 
+#navbar_signin_flex{
+  background-color: rgb(100,100,100);
+  padding: 20px;
+  width: 100%;
+  border-radius: 10px;
+}
+#navbar_flexbox{
+  padding: 20px;
+}
+#signin_col{
+  padding: 20px;
+}
+#navbutton{
+  background-color:rgb(150, 150, 150);
+}
+#signin_navbar_row{
+  padding:2%;
+}
+#button_login{
+  padding: 20px;
+}
+#jumbrotron_banner{
+  padding: 20px;
+}
+#profile_thumb{
+  width: 75px;
+  height: 75px;
+}
+#profile_page_img{
+  align-items: center;
+  height:auto;
+  width:auto;
+}
+#profile_page_img_col{
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+#flex_check_gender_pref{
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+#pro_log{
+  padding:20px;
+}
+.jumbotron{
+  background-image: url(banner.png);
+  height: 350px;
+  background-size: auto;
+  background-position: center;
+}
+#spotify_player{
+  padding: 10px;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+#listen_cell{
+  vertical-align: middle; 
+  text-align:center;
+}
+#listen_row{
+  height: 100px;
+}
+#paragraph_spacer{
+  height: 10px;
+}
+#barspacing{
+  height: 50px;
+}
