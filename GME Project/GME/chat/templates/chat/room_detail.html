@@ -10,8 +10,7 @@
   <!-- CSS Import List -->
   <link rel="shortcut icon" href="//www.twilio.com/marketing/bundles/marketing/img/favicons/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" />
-  <link rel="stylesheet" href="{% static "chat/styles/room_detail.css" %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" />
+  <link rel="stylesheet" href="{% static 'chat/styles/room_detail.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -62,95 +61,116 @@
       </div>
     </div>
   </div>
-  <style>
-    .rounded-edges {
-      border-radius: 0.25rem;
-    }
-
-    .footer {
-      position:relative;
-      height: 2px;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      background-color: transparent;
-    }
-    div.scroll {
-                margin:4px, 4px;
-                padding:4px;
-                background-color: green;
-                width: 500px;
-                height: 110px;
-                overflow-x: hidden;
-                overflow-y: auto;
-                text-align:justify;
-            }
-  </style>
 </head>
 
 <body>
 
-  <div class="row justify-content-center">
-    <div class="col-2">
-      <div class="d-flex p-2 justify-content-center">
-      
-      
-        </div>
-      </div>
+  <div class="container">
 
-      <div class="col-6 container-fluid">
-
-        <h2 style="text-align: right; padding-right: 50px;">{{room.name}}</h2>
-        <p style="text-align: right; padding-right: 66px;">
-          {{room.description}}
-        </p>
-      <div class="d-flex justify-content-center" style="padding-top: 10px; padding-left: 250px;" id ="middle-flex">
-        
-        <iframe src="https://open.spotify.com/embed/playlist/3eG8Ulg1ixwU3DPpdgnnGi" width="300" height="500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-
-      </div>
-
-      </div>
-
-      <div class="col-4">
-        <div class="col-auto">
-            <div class="table-responsive center" style="height: 500px; width:auto; overflow: auto;" >
-
-              <div class="container">
-                <div class="columns">
-                  <div>
-                    <section>
-                      <div id="messages"></div>
-                      <form id="message-form">
-                        <div class="field" style="height: auto;">
-                          <label class="label">Message</label>
-                          <div class="control" ">
-                            <textarea class="textarea" id="message-input"placeholder="Your message here" rows="3" autofocus></textarea>
-                          </div>
-                        </div>
-                        <button type="submit" class="button">Send</button>
-                      </form>
-                    </section>
-                  </div>
-            
-                </div>
-              </div>
-    
-  
+    <div class="row">
+      <br>
+      <div class="col-8">
+        <div style="position: absolute; left: -30px;">
+          <div class="row">
+            <div class="float-right">
+              <h2 class="title">{{room.name}}</h2>
+              <p class="subtitle">
+                {{room.description}}
+              </p>
+            </div>
           </div>
+          <br>
+          <i>Welcome to {{room.name}} </i><br>
+          <i>You have joined the {{room.name}} Listening Party.</i><br>
+          <i>Feel free to Jam Out and share your thoughts in the Chat. </i>
+        </div>
+        <div class="d-flex justify-content-center" style="padding-left: 375px; position: absolute; top:-7px"
+          id="middle-flex">
+
+          <iframe id="spotify" src="https://open.spotify.com/embed/playlist/3eG8Ulg1ixwU3DPpdgnnGi" width="300"
+            height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
         </div>
       </div>
+
+
+
+      <div style="padding-top: 75px;">
+        <section style="right: -280px;">
+          <div id="messages" style="top: -90px; right:2%; height:450px; width: 538px;"></div>
+          <form id="message-form" style="top: 601px; right: 1px; width: 525px;">
+            <div class="field">
+              <label class="label">Message</label>
+              <div class="control">
+                <textarea class="textarea" id="message-input" placeholder="Your message here" rows="3"
+                  autofocus></textarea>
+              </div>
+            </div>
+            <button type="submit" class="button">Send</button>
+          </form>
+        </section>
+      </div>
+
+
+
+
     </div>
+  </div>
 
-
-  
 
   <!-- Script Import List -->
   <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js"></script>
   <script src="https://media.twiliocdn.com/sdk/js/chat/v2.0/twilio-chat.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-  <script src="{% static "chat/scripts/rooms.js" %}"></script>
+  <script src="{% static 'chat/scripts/rooms.js' %}"></script>
+  <script>
+    var pathArray = window.location.pathname.split('/')
+    var d = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "sun";
+    weekday[1] = "mon";
+    weekday[2] = "tues";
+    weekday[3] = "wens";
+    weekday[4] = "thur";
+    weekday[5] = "fri";
+    weekday[6] = "sat";
+
+    var n = weekday[d.getDay()];
+    if (n != pathArray[2]) {
+      // window.location.replace(window.location.protocol + "//" + window.location.host + "/");
+      window.alert("Today is " + n + "day" + " you cannot enter this room unless its " + n + "day." + "\n" + "Please go to the right day of the week");
+      window.location.replace("http://localhost:8000/chat/");
+    };
+
+    if (document.location.pathname == '/rooms/sun/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn';
+    };
+    if (document.location.pathname == '/rooms/mon/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO';
+    };
+    if (document.location.pathname == '/rooms/tues/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M';
+    };
+    if (document.location.pathname == '/rooms/wens/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4FcAKI5Nhzq';
+    };
+    if (document.location.pathname == '/rooms/thurs/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWVqJMsgEN0F4';
+    };
+    if (document.location.pathname == '/rooms/fri/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcF6B6QPhFDv';
+    };
+    if (document.location.pathname == '/rooms/sat/') {
+
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX1lVhptIYRda';
+    };
+  </script>
 </body>
 
 </html>
