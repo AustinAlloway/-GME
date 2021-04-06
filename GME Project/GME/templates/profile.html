@@ -8,7 +8,7 @@
         {% include 'profile_dev.html' with user_json=user_json %}
     </div>
     <div class="col-3" id="profile_page_img_col">
-        <img src="{{user_json.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
+        <img src="{{user_json.profile_pic}}" class="rounded-circle" id="profile_page_img" style="height:350px;width:350px;"/>
     </div>
 </div>
 {% endblock %}

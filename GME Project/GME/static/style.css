@@ -33,8 +33,8 @@ body{
 }
 #profile_page_img{
   align-items: center;
-  height:auto;
-  width:auto;
+  height: 400px;
+  width: 400px;
 }
 #profile_page_img_col{
   margin-top: auto;
