@@ -1,10 +1,11 @@
 #Match Algo
-from . import mongo
+import mongo
 
 def match_pref(username_in_session):
     user = mongo.find_user(username_in_session)
     arraylist_gender_matches = genderfind(user)
-    return agefind(arraylist_gender_matches, user)
+    agematch = agefind(arraylist_gender_matches, user)
+    return musicpref(agematch,user)
 
 
 def genderfind(user):
@@ -28,6 +29,29 @@ def agefind(arraylist_gender_matches, user):
         if (minage < (user2)['age'] and (user2)['age'] < maxage):
             successfulmatchlist.append(user2)
     return successfulmatchlist
+
+
+def musicpref(agematch, user):
+    music_pref = user['music_profile'][0]
+    finalMatches = []
+    for user3 in agematch:
+        musicpref_of_user3 = user3['music_profile'][0]
+        if (float(music_pref['danceability']) < float(musicpref_of_user3['danceability']) * 1.3
+        and float(music_pref['danceability']) > float(musicpref_of_user3['danceability']) * 0.7):
+            print('dance')
+            if (float(music_pref['energy']) < float(musicpref_of_user3['energy']) * 1.3
+            and float(music_pref['energy']) > float(musicpref_of_user3['energy']) * 0.7):
+                print('energy')
+                if (float(music_pref['valence']) < float(musicpref_of_user3['valence']) * 1.3
+                and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
+                    print('valence')
+                    finalMatches.append(user3)
+
+                ##if (float(music_pref['loudness']) < float(musicpref_of_user3['loudness']) * 1.3
+                ##and float(music_pref['loudness']) > float(musicpref_of_user3['loudness']) * 0.7):
+                ##    print(3)
+
+    return finalMatches
 
 test_username = "k7lw"
 
