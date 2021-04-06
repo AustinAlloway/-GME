@@ -1,0 +1,72 @@
+ <button type="button" class="list-group-item bg-secondary text-white" data-toggle="modal" data-target="#match_{{forloop.counter0}}">
+            <div class="d-flex justify-content-around" style="width:400px">
+            <img src="{{match.profile_pic}}" class="rounded-circle" id="profile_thumb"/>
+            <center><h3>{{match.displayname}}</h3><center>
+            </div>
+</button>
+<!-- The Modal -->
+<div class="modal" id="match_{{forloop.counter0}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title"><center>{{match.displayname}}</center></h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <center><img src="{{match.profile_pic}}" class="rounded-circle" style="width:250px; height:250px;"/></center>
+            <center><h3>Music Profile</h3></center>
+                    <div class="d-flex flex-column">
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.acousticness type="acousticness"%}</div>
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.danceability type="danceability"%}</div>
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.energy type="energy"%}</div>
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.liveness type="liveness"%}</div>
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.speechiness type="speechiness"%}</div>
+                        <div class="p-2">{% include 'bars.html' with width=match.music_profile.0.valence type="valence"%}</div>
+                    </div>
+            <div class="d-flex justify-content-between">
+            <form action="/follow_match/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="match_username" value="{{match.username}}"/>
+                <button type="button" class="btn btn-success" onclick="form.submit()">Favorite Match</button>            
+            </form>
+
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#confirm_{{forloop.counter0}}">Request Match</button>
+            <!-- The Modal -->
+                <div class="modal" id="confirm_{{forloop.counter0}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirm Match Request?</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    <form action="/request_match/" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="match_email" value="{{match.email}}"/>
+                                <button type="button" class="btn btn-success" onclick="form.submit()">Request Match</button>            
+                            </form>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </div>
+    </div>
+</div>
+

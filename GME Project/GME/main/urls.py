@@ -13,4 +13,6 @@ urlpatterns = [
     path('dev/', views.development_page, name='dev'),
     path('devp/<str:username>', views.development_page_post, name='devp'),
     path('profile_update/', views.profile_update, name='profile_update'),
+    path('match_making/', views.match_making, name='match_making'),
+    path('request_match/', views.request_match, name='request_match'),
 ]

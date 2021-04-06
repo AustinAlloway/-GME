@@ -1,0 +1,48 @@
+{% extends "base_layout.html" %}
+{% block body_content %}
+<div class="row justify-content-center">
+    <div class="col-6" style="padding:25px;">
+        <div class = "container-fluid bg-secondary text-white" style="border-radius:25px;">
+                        <p id="barspacing"></p>
+                        <center><h3> Favorite Users </h3></center>
+                        <ul class="list-group" id="fav_list_group">
+                            {% for user in fav_list %}
+                                {% include 'match_module.html' with match=user %}
+                            {% endfor %}
+                        </ul>
+                        <p id="barspacing"></p>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-dark"><center><h5>Your Settings</h5></center></li>
+                            <li class="list-group-item list-group-item-secondary"><b>Country:</b> {{request.session.profile.country}}</li>
+                            <li class="list-group-item list-group-item-dark"><b>Gender:</b> {{request.session.profile.gender}}</li>
+                            <li class="list-group-item list-group-item-secondary"><b>Age:</b> {{request.session.profile.age}}</li>
+                            <li class="list-group-item list-group-item-dark"><center><h5>Match Preferences</h5></center></li>
+                            <li class="list-group-item list-group-item-secondary"><b>Age Minimum:</b> {{request.session.profile.match_pref.age_min}}</li>
+                            <li class="list-group-item list-group-item-dark"><b>Age Maximum:</b> {{request.session.profile.match_pref.age_max}}</li>
+                            <li class="list-group-item list-group-item-secondary"><b>Gender:</b>
+                            {% for gender in request.session.profile.match_pref.gender %}
+                                {% if gender == request.session.profile.match_pref.gender.0 %}
+                                    {{gender}}
+                                {% else %}
+                                    , {{gender}}
+                                {% endif %}
+                            {% endfor %}
+                            </li>
+                        </ul>
+
+                        <p id="barspacing"></p>
+        </div>
+    </div>
+    <div class="col-6" style="padding:25px;">
+    <center><h3>Matches <3</h3></center>
+        <center><div class="list-group" id="match_list_group">
+        {% for match in match_list %}
+            {% include 'match_module.html' with match=match %}
+        {% endfor %}
+        </div>
+        </center>
+    </div>
+</div>
+{% endblock %}
+
+
