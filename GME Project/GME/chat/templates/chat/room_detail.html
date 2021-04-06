@@ -61,16 +61,18 @@
       </div>
     </div>
   </div>
+
 </head>
 
-<body>
 
-  <div class="container">
+<body style="min-height: 100vh; min-width: 100vw;">
 
-    <div class="row">
+  <div class="container-fluid"> <!-- Start of the DIV CONTAINER -->
+
+    <div class="row"> <!-- Start of the DIV ROW -->
       <br>
-      <div class="col-8">
-        <div style="position: absolute; left: -30px;">
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4"> <!-- Start of the DIV COL 1 (AKA TEXT) -->
+        <div>
           <div class="row">
             <div class="float-right">
               <h2 class="title">{{room.name}}</h2>
@@ -84,25 +86,22 @@
           <i>You have joined the {{room.name}} Listening Party.</i><br>
           <i>Feel free to Jam Out and share your thoughts in the Chat. </i>
         </div>
-        <div class="d-flex justify-content-center" style="padding-left: 375px; position: absolute; top:-7px"
-          id="middle-flex">
+      </div> <!-- End of the DIV COL 1 (AKA TEXT) -->
 
-          <iframe id="spotify" src="https://open.spotify.com/embed/playlist/3eG8Ulg1ixwU3DPpdgnnGi" width="300"
-            height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4"> <!-- Start of the DIV COL 2 (AKA Spotify Iframe) -->
+        <iframe id="spotify" src="https://open.spotify.com/embed/playlist/3eG8Ulg1ixwU3DPpdgnnGi" width="300"
+          height="625" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      </div> <!-- End of the DIV COL 2 (AKA Spotify Iframe) -->
 
-        </div>
-      </div>
-
-
-
-      <div style="padding-top: 75px;">
-        <section style="right: -280px;">
-          <div id="messages" style="top: -90px; right:2%; height:450px; width: 538px;"></div>
-          <form id="message-form" style="top: 601px; right: 1px; width: 525px;">
-            <div class="field">
+      <!-- Start of the DIV COL 3 (AKA ChatBox) -->
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4" style="right: 5vw;"> <!-- style="height:100%;"--> 
+        <section>  <!-- style="right: -265px;" -->
+          <div id="messages" style="width: 512px; height: 460px; right: inherit;"></div>  <!-- style="top: -90px; right:2%; height:450px; width: 538px;" -->
+          <form id="message-form" style="width: 504px;" >  <!-- style="top: 601px; right: 1px; width: 525px;" -->
+            <div class="field" >
               <label class="label">Message</label>
               <div class="control">
-                <textarea class="textarea" id="message-input" placeholder="Your message here" rows="3"
+                <textarea class="textarea" id="message-input" placeholder="Enter a message to chat with the group" rows="3"
                   autofocus></textarea>
               </div>
             </div>
@@ -110,12 +109,12 @@
           </form>
         </section>
       </div>
+      <!-- End of the DIV COL 3 (AKA ChatBox) -->
 
+    </div> <!-- END of the DIV ROW -->
 
+  </div> <!-- END of the DIV CONTAINER -->
 
-
-    </div>
-  </div>
 
 
   <!-- Script Import List -->
@@ -130,7 +129,7 @@
     weekday[0] = "sun";
     weekday[1] = "mon";
     weekday[2] = "tues";
-    weekday[3] = "wens";
+    weekday[3] = "wed";
     weekday[4] = "thur";
     weekday[5] = "fri";
     weekday[6] = "sat";
@@ -144,31 +143,31 @@
 
     if (document.location.pathname == '/rooms/sun/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX1lVhptIYRda'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn */
     };
     if (document.location.pathname == '/rooms/mon/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO */
     };
     if (document.location.pathname == '/rooms/tues/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M */
     };
-    if (document.location.pathname == '/rooms/wens/') {
+    if (document.location.pathname == '/rooms/wed/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4FcAKI5Nhzq';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DX4FcAKI5Nhzq */
     };
     if (document.location.pathname == '/rooms/thurs/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWVqJMsgEN0F4';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4FcAKI5Nhzq'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DWVqJMsgEN0F4 */
     };
     if (document.location.pathname == '/rooms/fri/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcF6B6QPhFDv';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DWVqJMsgEN0F4'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DXcF6B6QPhFDv */
     };
     if (document.location.pathname == '/rooms/sat/') {
 
-      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DX1lVhptIYRda';
+      document.getElementById('spotify').src = 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcF6B6QPhFDv'; /* https://open.spotify.com/embed/playlist/37i9dQZF1DX1lVhptIYRda */
     };
   </script>
 </body>

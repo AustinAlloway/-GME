@@ -1,3 +1,4 @@
+from re import match
 from typing import Dict
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -7,6 +8,8 @@ from django.http import QueryDict
 import json, requests, base64
 from . import spotify as sp
 from . import mongo as m
+from . import email_match as email
+from . import match as match
 
 authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767']
 
@@ -193,3 +196,26 @@ def development_page_post(request, username):
             return render(request, 'profile.html', {'user_json':user_json})
         else:
             return render(request, 'unauthorized.html')
+
+def match_making(request):
+    if ('profile' in request.session):
+        load_profile(request,m.find_user(request.session['profile']['username']))
+        user_match_list = match.match_pref(request.session['profile']['username'])
+        fav_user_list = []
+        for username in request.session['profile']['favorite_users']:
+            fav_user_list.append(m.find_user(username))
+        return render(request, 'match_making.html', {'match_list': user_match_list,
+                                                    'fav_list': fav_user_list})
+    else:
+        return render(request, 'home.html')
+
+def request_match(request):
+    if request.method == 'POST':
+        if ('profile' in request.session):
+            send_email = request.POST.getlist('match_email')
+            email.sendemail(send_email,request.session['profile']['displayname'],request.session['profile']['email'])
+            return redirect(match_making)
+        else:
+            return render(request, 'home.html')
+    else:
+        return redirect(match_making)

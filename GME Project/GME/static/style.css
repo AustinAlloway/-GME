@@ -77,3 +77,14 @@ body{
 #barspacing{
   height: 50px;
 }
+#match_list_group{
+    max-height: 800px;
+    width: 600px;
+    margin-bottom: 10px;
+    overflow:scroll;
+}
+#fav_list_group{
+  max-height: 300px;
+  margin-bottom: 10px;
+  overflow:scroll;
+}
