@@ -1,5 +1,5 @@
 #Match Algo
-import mongo
+from . import mongo
 
 def match_pref(username_in_session):
     user = mongo.find_user(username_in_session)

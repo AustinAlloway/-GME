@@ -53,7 +53,7 @@
         <div class="d-flex justify-content-end " id="navbar_flexbox">
           <div class="btn-group" id="nav_btn_group">
             <a class="btn btn-outline-light" id="navbutton" role="button" href="/">Home</a>
-            <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/">Match Making</a>
+            <a class="btn btn-outline-light" id="navbutton" role="button" href="/match_making/">Match Making</a>
             <a class="btn btn-outline-light" id="navbutton" role="button" href="/chat/">Listening Party</a>
             <a class="btn btn-outline-light" id="navbutton" role="button" href="/dev/">Development Page</a>
           </div>
@@ -67,11 +67,14 @@
 
 <body style="min-height: 100vh; min-width: 100vw;">
 
-  <div class="container-fluid"> <!-- Start of the DIV CONTAINER -->
+  <div class="container-fluid">
+    <!-- Start of the DIV CONTAINER -->
 
-    <div class="row"> <!-- Start of the DIV ROW -->
+    <div class="row">
+      <!-- Start of the DIV ROW -->
       <br>
-      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4"> <!-- Start of the DIV COL 1 (AKA TEXT) -->
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4">
+        <!-- Start of the DIV COL 1 (AKA TEXT) -->
         <div>
           <div class="row">
             <div class="float-right">
@@ -88,21 +91,26 @@
         </div>
       </div> <!-- End of the DIV COL 1 (AKA TEXT) -->
 
-      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4"> <!-- Start of the DIV COL 2 (AKA Spotify Iframe) -->
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4">
+        <!-- Start of the DIV COL 2 (AKA Spotify Iframe) -->
         <iframe id="spotify" src="https://open.spotify.com/embed/playlist/3eG8Ulg1ixwU3DPpdgnnGi" width="300"
           height="625" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
       </div> <!-- End of the DIV COL 2 (AKA Spotify Iframe) -->
 
       <!-- Start of the DIV COL 3 (AKA ChatBox) -->
-      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4" style="right: 5vw;"> <!-- style="height:100%;"--> 
-        <section>  <!-- style="right: -265px;" -->
-          <div id="messages" style="width: 512px; height: 460px; right: inherit;"></div>  <!-- style="top: -90px; right:2%; height:450px; width: 538px;" -->
-          <form id="message-form" style="width: 504px;" >  <!-- style="top: 601px; right: 1px; width: 525px;" -->
-            <div class="field" >
+      <div class="col-lg-4 col-med-4 col-sm-4 col-xl-4" style="right: 5vw;">
+        <!-- style="height:100%;"-->
+        <section>
+          <!-- style="right: -265px;" -->
+          <div id="messages" style="width: 512px; height: 460px; right: inherit;"></div>
+          <!-- style="top: -90px; right:2%; height:450px; width: 538px;" -->
+          <form id="message-form" style="width: 504px;">
+            <!-- style="top: 601px; right: 1px; width: 525px;" -->
+            <div class="field">
               <label class="label">Message</label>
               <div class="control">
-                <textarea class="textarea" id="message-input" placeholder="Enter a message to chat with the group" rows="3"
-                  autofocus></textarea>
+                <textarea class="textarea" id="message-input" placeholder="Enter a message to chat with the group"
+                  rows="3" autofocus></textarea>
               </div>
             </div>
             <button type="submit" class="button">Send</button>
