@@ -673,6 +673,25 @@ def remove_favorited_user(user, favUser):
 #####################################################################################
 #
 # CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
+def randomize_all_profile_pics():
+    try:
+        k = 1
+        for elem in find_all():
+            collection.update_one({'username': elem['username']}, { '$set' : { 'profile_pic': 'https://picsum.photos/id/' + str(k) + '/200'}})
+            print("yes")
+            k += 1
+    except:
+        print("no")
+        return False
+
+#####################################################################################
+# Param: N/A                                                                        #
+# Function: randomize all user's gender preferences to random genders (USE ONLY WITH   #
+# RETURNS: No return                                                SAMPLE DATA)    #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+#
+# CURRENT ISSUE: Sample from random.choice is repeatable. Could see gender preference of ['Non', 'Non'] etc.
 def randomize_all_match_pref_empty():
     try:
         for elem in find_all():

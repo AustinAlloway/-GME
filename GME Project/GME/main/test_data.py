@@ -56,6 +56,11 @@ if len(sys.argv) > 1:
     if sys.argv[1] == '6':
         pp.pprint(mongo.find_user(input("Enter username: ")))
         menu()
+
+        #favorite users
+    if sys.argv[1] == '7':
+        pp.pprint(mongo.randomize_all_profile_pics())
+        menu()
 else:
     print("_____________________________________________________________________")
     print("!!! No arguments given !!!")
