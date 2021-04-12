@@ -12,6 +12,17 @@ from . import email_match as email
 from . import match as match
 
 authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767']
+stock_profile_pics = [
+    "https://data.whicdn.com/images/347068182/original.jpg?t=1595858693",
+    "https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=428&q=80",
+    "https://images.unsplash.com/photo-1525069011944-e7adfe78b280?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTExfHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    "https://images.unsplash.com/photo-1502173842631-25b37aac8b08?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjIwfHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    "https://images.unsplash.com/photo-1543005273-13a39e8e8ef2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjMzfHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    "https://images.unsplash.com/photo-1507037298722-240d3390a736?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjM3fHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    "https://images.unsplash.com/photo-1542309667-2a115d1f54c6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzY3fHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    "https://2.bp.blogspot.com/-Hm0h1XeY_LY/WtVhE8YkCwI/AAAAAAAAEb8/5VoowcGdywIIEV0OpXFTZVGENWL8ibO8QCLcBGAs/s1600/Flashing%2BAstronaut%2BWallpaper%2BEngine.jpg",
+    "https://sagaswhat.com/wp-content/uploads/2017/02/yourname_top.jpg",
+    ]
 
 #####################################################################################
 # Param: the default request object and user profiles json                          #
@@ -47,6 +58,8 @@ def load_profile(request,profile_json):
 ###################################################################################################
 
 def home(request):
+    if ('profile' in request.session):
+        load_profile(request,m.find_user(request.session['profile']['username']))
     request.session['tracklist'] = []
     return render(request, 'home.html')
 
@@ -71,6 +84,8 @@ def log_auth(request):
     sp_json = sp.get_user_info(oauth_dict['access_token'])
     request.session['profile'] = {}
     if (m.check_username(sp_json['id'])):
+        m.set_access_token(sp_json['id'],oauth_dict['access_token'])
+        m.set_refresh_token(sp_json['id'],oauth_dict['refresh_token'])
         load_profile(request,m.find_user(sp_json['id']))
     else:
         if (len(sp_json['images']) == 0):
@@ -137,7 +152,7 @@ def anon_genre_submit(request):
 def profile(request, name):
     if ('profile' in request.session) and (name == request.session['profile']['username']):
         load_profile(request,m.find_user(request.session['profile']['username']))
-        return render(request, 'profile.html',{'user_json':request.session['profile']})
+        return render(request, 'profile.html',{'user_json':request.session['profile'],'profile_pic_list':stock_profile_pics})
     else:
         return render(request, 'home.html')
 
@@ -174,7 +189,7 @@ def profile_update(request):
             match_pref['gender'] = request.POST.getlist('pref_gender')
         m.set_match_pref(request.session['profile']['username'], match_pref)
         load_profile(request,m.find_user(request.session['profile']['username']))
-        return render(request, 'profile.html',{'user_json':request.session['profile']})
+        return redirect('/profile/' + request.session['profile']['username'])
     else:
         return render(request, 'home.html')
 
@@ -248,3 +263,22 @@ def unfavorite_user(request):
             return render(request, 'home.html')
     else:
         return redirect(match_making)
+
+
+def update_profile_pic(request):
+    if request.method == 'POST':
+        if ('profile' in request.session):
+            profile_href = request.POST.getlist('profile_pic_selc')[0]
+            m.set_profile_pic(request.session['profile']['username'],profile_href)
+    return redirect('/profile/' + request.session['profile']['username'])
+
+    
+def restore_profile_pic(request):
+    if request.method == 'POST':
+        if ('profile' in request.session):
+            try:
+                profile_href = sp.get_user_info(request.session['profile']['access_token'])['images'][0]['url']
+                m.set_profile_pic(request.session['profile']['username'],profile_href)
+            except:
+                pass
+    return redirect('/profile/' + request.session['profile']['username'])

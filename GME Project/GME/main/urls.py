@@ -17,4 +17,6 @@ urlpatterns = [
     path('request_match/', views.request_match, name='request_match'),
     path('follow_match/', views.follow_match, name='follow_match'),
     path('unfavorite_user/', views.unfavorite_user, name='unfavorite_user'),
+    path('update_profile_pic/', views.update_profile_pic, name='update_profile_pic'),
+    path('restore_profile_pic/', views.restore_profile_pic, name='restore_profile_pic'),
 ]

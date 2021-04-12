@@ -243,13 +243,4 @@ def get_top_track_list(access_token):
         return top_track_id_list
     except:
         return []
-    head = {
-        "Authorization": "Bearer {}".format(access_token)
-    }
-    request_url = "https://api.spotify.com/v1/me/top/tracks"
-    response_list = json.loads(requests.get(request_url,headers=head).text)['items']
-    top_track_id_list = []
-    for track in response_list:
-        top_track_id_list.append(track['id'])
-    return top_track_id_list
 
