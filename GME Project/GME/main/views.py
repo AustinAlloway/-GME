@@ -149,8 +149,9 @@ def profile(request, name):
 def profile_update(request):
     if ('profile' in request.session):
         match_pref = m.get_match_pref(request.session['profile']['username'])['match_pref']
-        if(len(request.POST.getlist('gender')[0]) > 0):
-            m.set_gender(request.session['profile']['username'],request.POST.getlist('gender')[0])
+        print(request.POST.getlist('gender_select'))
+        if(len(request.POST.getlist('gender_select')[0]) > 0):
+            m.set_gender(request.session['profile']['username'],request.POST.getlist('gender_select')[0])
         try:
             age_int = int(request.POST.getlist('age')[0])
             if (len(request.POST.getlist('age')) > 0):
