@@ -38,13 +38,13 @@ def musicpref(agematch, user):
         musicpref_of_user3 = user3['music_profile'][0]
         if (float(music_pref['danceability']) < float(musicpref_of_user3['danceability']) * 1.3
         and float(music_pref['danceability']) > float(musicpref_of_user3['danceability']) * 0.7):
-            print('dance')
+            #print('dance')
             if (float(music_pref['energy']) < float(musicpref_of_user3['energy']) * 1.3
             and float(music_pref['energy']) > float(musicpref_of_user3['energy']) * 0.7):
-                print('energy')
+                #print('energy')
                 if (float(music_pref['valence']) < float(musicpref_of_user3['valence']) * 1.3
                 and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
-                    print('valence')
+                    #print('valence')
                     finalMatches.append(user3)
 
                 ##if (float(music_pref['loudness']) < float(musicpref_of_user3['loudness']) * 1.3
@@ -54,7 +54,7 @@ def musicpref(agematch, user):
     return finalMatches
 
 test_username = "k7lw"
-
+'''
 for user in match_pref(test_username):
     print(user['displayname'])
     print(user['profile_pic'])
@@ -62,3 +62,4 @@ for user in match_pref(test_username):
     print(user['gender'])
     print(user['country'] + "\n")
     #% of matchability
+    '''

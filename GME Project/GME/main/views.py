@@ -220,3 +220,31 @@ def request_match(request):
             return render(request, 'home.html')
     else:
         return redirect(match_making)
+
+def follow_match(request):
+    if request.method == 'POST':
+        if ('profile' in request.session):
+            fav_user_list = m.get_favorite_users(request.session['profile']['username'])['favorite_users']
+            if (not (request.POST.getlist('match_username')[0] in fav_user_list)):
+                if (len(request.POST.getlist('match_username')[0]) > 0):
+                    fav_user_list.append(request.POST.getlist('match_username')[0])
+                    m.set_favorite_users(request.session['profile']['username'], fav_user_list)
+            return redirect(match_making)     
+        else:
+            return render(request, 'home.html')
+    else:
+        return redirect(match_making)
+
+def unfavorite_user(request):
+    if request.method == 'POST':
+        if ('profile' in request.session):
+            fav_user_list = m.get_favorite_users(request.session['profile']['username'])['favorite_users']
+            if (request.POST.getlist('unfavorite_username')[0] in fav_user_list):
+                if (len(request.POST.getlist('unfavorite_username')[0]) > 0):
+                    fav_user_list.remove(request.POST.getlist('unfavorite_username')[0])
+                    m.set_favorite_users(request.session['profile']['username'], fav_user_list)
+            return redirect(match_making)     
+        else:
+            return render(request, 'home.html')
+    else:
+        return redirect(match_making)

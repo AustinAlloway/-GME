@@ -7,7 +7,7 @@
                         <center><h3> Favorite Users </h3></center>
                         <ul class="list-group" id="fav_list_group">
                             {% for user in fav_list %}
-                                {% include 'match_module.html' with match=user %}
+                                {% include 'fav_module.html' with user=user %}
                             {% endfor %}
                         </ul>
                         <p id="barspacing"></p>
@@ -19,12 +19,20 @@
                             <li class="list-group-item list-group-item-dark"><center><h5>Match Preferences</h5></center></li>
                             <li class="list-group-item list-group-item-secondary"><b>Age Minimum:</b> {{request.session.profile.match_pref.age_min}}</li>
                             <li class="list-group-item list-group-item-dark"><b>Age Maximum:</b> {{request.session.profile.match_pref.age_max}}</li>
-                            <li class="list-group-item list-group-item-secondary"><b>Gender:</b>
+                            <li class="list-group-item list-group-item-secondary"><b>Gender(s):</b>
                             {% for gender in request.session.profile.match_pref.gender %}
-                                {% if gender == request.session.profile.match_pref.gender.0 %}
-                                    {{gender}}
+                                {% if gender == 'Non' %}
+                                    {% if gender == request.session.profile.match_pref.gender.0 %}
+                                        Non-Binary
+                                    {% else %}
+                                        , Non-Binary
+                                    {% endif %}
                                 {% else %}
-                                    , {{gender}}
+                                    {% if gender == request.session.profile.match_pref.gender.0 %}
+                                        {{gender}}
+                                    {% else %}
+                                        , {{gender}}
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                             </li>
