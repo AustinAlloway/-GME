@@ -11,7 +11,7 @@ from . import mongo as m
 from . import email_match as email
 from . import match as match
 
-authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767']
+authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767','af8jd8mix7th4gk3cp6xqqo5a']
 stock_profile_pics = [
     "https://data.whicdn.com/images/347068182/original.jpg?t=1595858693",
     "https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=428&q=80",
