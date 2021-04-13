@@ -17,7 +17,7 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-            <center><img src="{{match.profile_pic}}" class="rounded-circle" style="width:250px; height:250px;"/></center>
+            <center><img src="{{user.profile_pic}}" class="rounded-circle" style="width:250px; height:250px;"/></center>
             <center><h3>Music Profile</h3></center>
                     <div class="d-flex flex-column">
                         <div class="p-2">{% include 'bars.html' with width=user.music_profile.0.acousticness type="acousticness"%}</div>
