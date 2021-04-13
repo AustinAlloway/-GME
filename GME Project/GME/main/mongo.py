@@ -790,18 +790,18 @@ def get_matches_age_range(minAge, maxAge):
 #####################################################################################
 def musicAttributeEditor():
     try:
+        authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767','af8jd8mix7th4gk3cp6xqqo5a']
         for elem in find_all():
-            if(check_username('nitbaba') or check_username('12151060767') or check_username('k7lw') or check_username('arcanebelal') or check_username('newburyrn')):
-                continue
-            else:
+            if(not (elem['username'] in authorized_users)):
                 valenceVal = random.uniform(0.1485282, 0.3465662)
                 energyVal = random.uniform(0.363992, 0.849316)
                 danceabilityVal = random.uniform(0.365436, 0.852683)
-                set_music_profile_attribute(elem, 'valence', valenceVal)
-                set_music_profile_attribute(elem, 'energy', energyVal)
-                set_music_profile_attribute(elem, 'danceability', danceabilityVal)
+                elem['music_profile'][0]['valence'] = valenceVal
+                elem['music_profile'][0]['energy'] = energyVal
+                elem['music_profile'][0]['danceability'] = danceabilityVal
+                update_music_profile(elem['username'],elem['music_profile'][0])
     except:
-        return false
+        return False
 
 
 #####################################################################################
