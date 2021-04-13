@@ -799,7 +799,7 @@ def musicAttributeEditor():
                 elem['music_profile'][0]['valence'] = valenceVal
                 elem['music_profile'][0]['energy'] = energyVal
                 elem['music_profile'][0]['danceability'] = danceabilityVal
-                update_music_profile(elem['username'],elem['music_profile'][0])
+                update_music_profile(elem['username'], elem['music_profile'])
     except:
         return False
 
@@ -845,3 +845,15 @@ def data_add():
                 print("User exist")
     
     mock.close()
+
+
+def fix_data():
+    for user in find_all():
+        try:
+            user['music_profile'][0]
+            print('array exists')
+        except:
+            dummy_mp = [user['music_profile']]
+            update_music_profile(user['username'],dummy_mp)  
+            print('fixed' + user['username']) 
+
