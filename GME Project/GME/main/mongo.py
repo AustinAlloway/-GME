@@ -783,6 +783,28 @@ def get_matches_age_range(minAge, maxAge):
         return False
 
 #####################################################################################
+# Param: none                                                                       #
+# Function: set music attributes closer to matchmaking algorithms as necessary      #
+# RETURNS: no return                                                                #
+# ON FAIL: Returns Falso                                                            #
+#####################################################################################
+def musicAttributeEditor():
+    try:
+        for elem in find_all():
+            if(check_username('nitbaba') or check_username('12151060767') or check_username('k7lw') or check_username('arcanebelal') or check_username('newburyrn')):
+                continue
+            else:
+                valenceVal = random.uniform(0.1485282, 0.3465662)
+                energyVal = random.uniform(0.363992, 0.849316)
+                danceabilityVal = random.uniform(0.365436, 0.852683)
+                set_music_profile_attribute(elem, 'valence', valenceVal)
+                set_music_profile_attribute(elem, 'energy', energyVal)
+                set_music_profile_attribute(elem, 'danceability', danceabilityVal)
+    except:
+        return false
+
+
+#####################################################################################
 # Param: Profile creation info                                                      #
 # Function: formats a user for database entry                                       #
 # RETURNS: Profile format                                                           #
