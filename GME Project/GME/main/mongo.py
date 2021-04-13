@@ -793,9 +793,9 @@ def musicAttributeEditor():
         authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767','af8jd8mix7th4gk3cp6xqqo5a']
         for elem in find_all():
             if(not (elem['username'] in authorized_users)):
-                valenceVal = random.uniform(0.1485282, 0.3465662)
-                energyVal = random.uniform(0.363992, 0.849316)
-                danceabilityVal = random.uniform(0.365436, 0.852683)
+                valenceVal = random.uniform(0.273050, 0.637117)
+                energyVal = random.uniform(0.370575, 0.864676)
+                danceabilityVal = random.uniform(0.349833, 0.816276)
                 elem['music_profile'][0]['valence'] = valenceVal
                 elem['music_profile'][0]['energy'] = energyVal
                 elem['music_profile'][0]['danceability'] = danceabilityVal
