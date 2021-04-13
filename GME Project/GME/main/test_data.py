@@ -57,9 +57,13 @@ if len(sys.argv) > 1:
         pp.pprint(mongo.find_user(input("Enter username: ")))
         menu()
 
-        #favorite users
+    #favorite users
     if sys.argv[1] == '7':
         pp.pprint(mongo.randomize_all_profile_pics())
+        menu()
+
+    if sys.argv[1] == '8':
+        pp.pprint(mongo.musicAttributeEditor())6
         menu()
 else:
     print("_____________________________________________________________________")
