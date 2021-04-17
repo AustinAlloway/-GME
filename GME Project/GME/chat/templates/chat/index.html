@@ -6,6 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--********************************* External CSS Links Start *********************************-->
   <!-- CSS Import List -->
   <link rel="shortcut icon" href="//www.twilio.com/marketing/bundles/marketing/img/favicons/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css" />
@@ -13,16 +14,16 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
-  <!-- Script Import List -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <!-- MAKE PRETTY SECTION -->
+  <!--******************************** External CSS Links End ************************************-->
+
+  <!--******************************************** GME Banner Start ********************************************-->
   {% block head %}
   <div class="jumbotron jumbotron-fluid justify-content-center" id="jumbotron_banner">
   </div>
-
   {% endblock %}
+  <!--******************************************** GME Banner End ********************************************-->
+
+  <!--****************************************** Navigation Bar Start ******************************************-->
   <div class="row justify-content-center" id="signin_navbar_row">
     <div class="d-flex mx-auto" id="navbar_signin_flex">
       {% if 'profile' not in request.session %}
@@ -61,13 +62,16 @@
       </div>
     </div>
   </div>
+  <!--****************************************** Navigation Bar End ******************************************-->
+
+  <!--************************************** Internal CSS Page Style Start **************************************-->
   <style>
     .rounded-edges {
       border-radius: 0.25rem;
     }
 
     .footer {
-      position:relative;
+      position: relative;
       height: 2px;
       left: 0;
       bottom: 0;
@@ -76,44 +80,63 @@
       background-color: transparent;
     }
   </style>
+  <!--************************************** Internal CSS Page Style End **************************************-->
+
   <title>GME: Listening Party Lobby</title>
 </head>
 
 <body>
 
+  <!--******************************* Listening Party Info Schedule Table Start *******************************-->
   <div class="container">
     <h2 style="text-align: center; padding-bottom: 20px;">Welcome to the GME Listening Party Lobby</h2>
-    <img class="img-fluid, mx-auto d-block" style="padding-bottom: 5px;" src="https://www.jesusfreakhideout.com/listeningparty/listeningparty2018.png" alt="Chania"> 
+    <img class="img-fluid, mx-auto d-block" style="padding-bottom: 5px;"
+      src="https://www.jesusfreakhideout.com/listeningparty/listeningparty2018.png" alt="Chania">
     <table class="table table, table-striped, table table-bordered">
       <thead class="table-dark">
+        <!-- Column 1 Headers Start -->
         <tr>
           <th style="text-align: center; color: white;">Day of The Week</th>
           <th style="text-align: center; color: white;">Theme</th>
           <th style="text-align: center; color: white;">Join Party</th>
         </tr>
+        <!-- Column 1 Headers End -->
       </thead>
+      <!-- Individual Listening Party Room Info Rows Start -->
       <tbody>
         {% for room in rooms %}
         <tr>
+          <!-- Room Name -->
           <td style="text-align: center;">{{room.name}}</td>
+          <!-- Room Theme -->
           <td style="text-align: center;">{{room.description}}</td>
+          <!-- Room Entry Button -->
           <td style="text-align: center;"><a href="/rooms/{{room.slug}}" class="button">Join In</a></td>
         </tr>
         {% endfor %}
       </tbody>
+      <!-- Individual Listening Party Room Info Rows End -->
     </table>
-  </div>
+  </div> 
+  <!--******************************* Listening Party Info Schedule Table End *******************************-->
+
+  <!--********************************* External JS Scripts Links Start *********************************-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!--********************************* External JS Scripts Links End *********************************-->
 </body>
 
+<!--******************************* Page Footer Start *******************************-->
 <footer>
   <div class="footer, border-top" style="padding-top: 1px;">
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2021 Copyright:
-          <a> GME Inc.</a>
-        </div>
-        <!-- Copyright -->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2021 Copyright:
+      <a> GME Inc.</a>
+    </div>
+    <!-- Copyright -->
   </div>
-
 </footer>
+<!--******************************* Page Footer End *******************************-->
 
 </html>
