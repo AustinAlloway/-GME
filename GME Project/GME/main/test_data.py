@@ -63,7 +63,7 @@ if len(sys.argv) > 1:
         menu()
 
     if sys.argv[1] == '8':
-        pp.pprint(mongo.musicAttributeEditor())6
+        pp.pprint(mongo.musicAttributeEditor())
         menu()
 else:
     print("_____________________________________________________________________")
