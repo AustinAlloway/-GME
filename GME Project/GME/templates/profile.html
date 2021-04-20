@@ -8,76 +8,53 @@
         {% include 'profile_dev.html' with user_json=user_json %}
     </div>
     <div class="col-3" id="profile_page_img_col">
-        <img src="{{user_json.profile_pic}}" class="rounded-circle" id="profile_page_img"/>
-        <div class="col-2">
-            <img src="{{request.session.profile.images.0.url}}" class="rounded-circle" id="profile_page_img"/>
-            <p id="paragraph_spacer"> </p>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" style="float: right">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="{{user_json.profile_pic}}" class="rounded-circle" id="profile_page_img" style="height:30em;width:30em;"/>
+    <p id="paragraph_spacer"> </p>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#profile_picture_modal" style="float:right">
                 Edit Picture
             </button>
+            </div>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <form action="/update_profile_pic/" method="POST">
+                {% csrf_token %}
+            <div class="modal fade" id="profile_picture_modal" tabindex="-1" role="dialog" aria-labelledby="profile_picture_modal_label" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Select Picture</h5>
+                            <h5 class="modal-title" id="profile_picture_modal_label">Select Picture</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="options" id="option1" autocomplete="off" checked>
-                            <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                        </label>
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="options" id="option2" autocomplete="off">
-                          <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                        </label>
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="options" id="option3" autocomplete="off">
-                            <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                        </label>  
-    
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option4" autocomplete="off">
-                          <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-                      <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option5" autocomplete="off">
-                        <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-                      <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option6" autocomplete="off">
-                          <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-    
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option7" autocomplete="off">
-                          <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-                      <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option8" autocomplete="off">
-                        <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-                      <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option9" autocomplete="off">
-                          <img src="https://static9.depositphotos.com/1006617/1123/v/600/depositphotos_11234785-stock-illustration-cartoon-spaceship.jpg" alt="rocketship" width="120" height="120">
-                      </label>
-                    </div>            
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons"style="padding:1em;margin:1em;">
+                    <div class='row'style="margin:1em;">
+                    {% for picture in profile_pic_list %}
+                        <div class="col-4">
+                            <label class="btn btn-secondary">
+                            <input type="radio" name="profile_pic_selc" value="{{picture}}" autocomplete="off" checked>
+                                <img src="{{picture}}" alt="rocketship" width="120" height="120">
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                
+                </div>            
                 
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="form.submit()">Save changes</button>
+              </form>
+              <form action="/restore_profile_pic/" method="POST">
+                {% csrf_token %}
+              <button type="button" class="btn btn-success" onclick="form.submit()">Restore Picture <i class="fab fa-spotify"></i></button>
+              </form>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
       </div>
     
         </div>
-        <div class="col-1" id="padding_col"></div>
-    </div>
-    {% endblock %}
-    
+{% endblock %}
