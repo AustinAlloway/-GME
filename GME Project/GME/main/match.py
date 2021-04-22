@@ -30,6 +30,13 @@ def agefind(arraylist_gender_matches, user):
             successfulmatchlist.append(user2)
     return successfulmatchlist
 
+def matchability(user, user3):
+    music_pref = user['music_profile'][0]
+    usermatchability = (music_pref['danceability']+music_pref['energy']+music_pref['valence'])/3
+    user4match = user3['music_profile'][0]
+    user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
+    matchability = (user4matchability/usermatchability)*100
+    return matchability
 
 def musicpref(agematch, user):
     music_pref = user['music_profile'][0]
@@ -45,13 +52,10 @@ def musicpref(agematch, user):
                 if (float(music_pref['valence']) < float(musicpref_of_user3['valence']) * 1.3
                 and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
 
+                    matchpercent = matchability(user, user3)
+                    user3['matchability']=matchpercent
                     finalMatches.append(user3)
-                    user3['matchability']=50
 
-
-                ##if (float(music_pref['loudness']) < float(musicpref_of_user3['loudness']) * 1.3
-                ##and float(music_pref['loudness']) > float(musicpref_of_user3['loudness']) * 0.7):
-                ##    print(3)
 
     return finalMatches
 
@@ -61,22 +65,12 @@ def sort_matches (matchList):
 
 
 '''
-def matchability(agematch, user)
-music_pref = user['music_profile'][0]
-usermatchability = (music_pref['danceability']+music_pref['energy']+music_pref['valence'])/3
-    for user4 in agematch:
-        user4match = user4['music_profile'][0]
-        user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
-    matchability = (user4matchability/usermatchability)*100
-
-
-
 test_username = "k7lw"
 for user in match_pref(test_username):
     print(user['displayname'])
     print(user['profile_pic'])
     print(user['age'])
     print(user['gender'])
-    print(user['country'] + "\n")
-    #% of matchability
+    print(user['country'])
+    print(user['matchability'])
 '''
