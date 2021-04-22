@@ -1,11 +1,13 @@
 #Match Algo
 import mongo
+import pprint as pp
 
 def match_pref(username_in_session):
     user = mongo.find_user(username_in_session)
     arraylist_gender_matches = genderfind(user)
     agematch = agefind(arraylist_gender_matches, user)
-    return musicpref(agematch,user)
+    finalmatch = musicpref(agematch,user)
+    return sort_matches(finalmatch)
 
 
 def genderfind(user):
@@ -60,9 +62,10 @@ def musicpref(agematch, user):
     return finalMatches
 
 def sort_matches (matchList):
-    sortedList = sorted(matchList, key = lambda match: match['matchability'])
+    sortedList = sorted(matchList,reverse=True, key = lambda match: match['matchability'])
     return sortedList
 
+pp.pprint(match_pref(input('name:')))
 
 '''
 test_username = "k7lw"
