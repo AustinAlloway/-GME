@@ -1,5 +1,5 @@
 #Match Algo
-from . import mongo
+import mongo
 
 def match_pref(username_in_session):
     user = mongo.find_user(username_in_session)
@@ -38,14 +38,16 @@ def musicpref(agematch, user):
         musicpref_of_user3 = user3['music_profile'][0]
         if (float(music_pref['danceability']) < float(musicpref_of_user3['danceability']) * 1.3
         and float(music_pref['danceability']) > float(musicpref_of_user3['danceability']) * 0.7):
-            #print('dance')
+
             if (float(music_pref['energy']) < float(musicpref_of_user3['energy']) * 1.3
             and float(music_pref['energy']) > float(musicpref_of_user3['energy']) * 0.7):
-                #print('energy')
+
                 if (float(music_pref['valence']) < float(musicpref_of_user3['valence']) * 1.3
                 and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
-                    #print('valence')
+
                     finalMatches.append(user3)
+                    user3['matchability']=50
+
 
                 ##if (float(music_pref['loudness']) < float(musicpref_of_user3['loudness']) * 1.3
                 ##and float(music_pref['loudness']) > float(musicpref_of_user3['loudness']) * 0.7):
@@ -53,8 +55,18 @@ def musicpref(agematch, user):
 
     return finalMatches
 
-test_username = "k7lw"
 '''
+def matchability(agematch, user)
+music_pref = user['music_profile'][0]
+usermatchability = (music_pref['danceability']+music_pref['energy']+music_pref['valence'])/3
+    for user4 in agematch:
+        user4match = user4['music_profile'][0]
+        user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
+    matchability = (user4matchability/usermatchability)*100
+
+
+
+test_username = "k7lw"
 for user in match_pref(test_username):
     print(user['displayname'])
     print(user['profile_pic'])
@@ -62,4 +74,4 @@ for user in match_pref(test_username):
     print(user['gender'])
     print(user['country'] + "\n")
     #% of matchability
-    '''
+'''
