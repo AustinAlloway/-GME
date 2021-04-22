@@ -35,7 +35,6 @@
               </div>
           </div>
           {% else %}
-            {{request.session.profile.disply_id}}
             <img src="{{request.session.profile.profile_pic}}" class="rounded-circle" id="profile_thumb"/>
             <div class="d-flex" id="pro_log">
                 <form action="/logout/" method="POST">
@@ -51,14 +50,25 @@
             <div class="d-flex justify-content-end " id="navbar_flexbox">
               <div class="btn-group" id="nav_btn_group">
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/">Home</a>
+                  {% if 'username' in request.session.profile %}
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/match_making/">Match Making</a>
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/chat/">Listening Party</a>
                   <a class="btn btn-outline-light" id="navbutton" role="button" href="/dev/">Development Page</a>
+                  {% else %}
+                  <button type="button" class="btn btn-outline-light" id="navbutton" onclick="pop_yur();">Match Making</button>
+                  <button type="button" class="btn btn-outline-light" id="navbutton" onclick="pop_yur();">Listening Party</button>
+                  <a class="btn btn-outline-light disabled" id="navbutton" role="button" href="/dev/">Development Page</a>
+                  {% endif %}
               </div>
             </div>
           </div>
         </div>
       </div>
+<script>
+function pop_yur(){
+    alert("Notice: To experience the full functionality of To The Moon, please log in to Spotify!");
+} 
+</script>
   </head>
 
   <body>
@@ -70,16 +80,15 @@
 
 
   </body>
-
-
-  <footer>
-    <div class="footer, border-top" style="padding-top: 1px;">
-          <!-- Copyright -->
-          <div class="footer-copyright text-center py-3">© 2021 Copyright:
-            <a> GME Inc.</a>
-          </div>
-          <!-- Copyright -->
-    </div>
   
+  </footer>
+    <footer class="bg-dark text-center text-white">
+    <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p>Disclaimer: If you share your account with anyone, please be advised that we cannot guarantee a personalized match for you.</p>
+        © 2021 Copyright:
+        <a class="text-white" href="https://docs.google.com/document/d/1Pqt9BBZMlkG-q3vySrJdF_M8-gSLODhj0Tv4LaRrym8/edit?usp=sharing">GME Inc.</a>
+      </div>
+    <!-- Copyright -->
   </footer>
 </html>
