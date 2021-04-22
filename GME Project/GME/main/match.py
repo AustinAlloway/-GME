@@ -55,6 +55,11 @@ def musicpref(agematch, user):
 
     return finalMatches
 
+def sort_matches (matchList):
+    sortedList = sorted(matchList, key = lambda match: match['matchability'])
+    return sortedList
+
+
 '''
 def matchability(agematch, user)
 music_pref = user['music_profile'][0]
