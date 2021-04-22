@@ -62,7 +62,7 @@ def musicpref(agematch, user):
     return finalMatches
 
 def sort_matches (matchList):
-    sortedList = sorted(matchList,reverse=True, key = lambda match: match['matchability'])
+    sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
     return sortedList
 
 pp.pprint(match_pref(input('name:')))
