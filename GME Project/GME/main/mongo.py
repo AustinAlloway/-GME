@@ -122,21 +122,6 @@ def find_user(user):
         return False
 
 #####################################################################################
-# Param: username of User                                                           #
-# Function: get user profile of denoted user                                        #
-# RETURNS: user profile                                                             #
-# ON FAIL: Returns Falso                                                            #
-#####################################################################################
-def user_exist(user):
-    try:
-        for user_data in find_all():
-            if(user == user_data['username']):
-                return True
-        return False
-    except:
-        return False
-
-#####################################################################################
 # Param: username as String, desired key name as string                             #
 # Function: Return's value for given keys. Generalized getter for non-nested values.#
 # RETURNS: key/value as JSON                                                        #
@@ -839,7 +824,7 @@ def data_add():
         data = json.load(mock)
 
         for i in data:
-            if(user_exist(i['username']) == False):
+            if(check_username(i['username']) == False):
                 add_user(i)
             else:
                 print("User exist")
