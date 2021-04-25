@@ -59,18 +59,20 @@ def musicpref(agematch, user):
 
                     matchpercent = matchability(user, user3)
                     user3['matchability']=matchpercent
+                    #mongo.set_keys_value(user3, 'matchability', matchpercent)
                     finalMatches.append(user3)
 
 
-    return sort_matches(finalMatches)
+    return finalMatches
+    #return sort_matches(finalMatches)
 
-def sort_matches (matchList):
-    sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
-    return sortedList
+#def sort_matches(matchList):
+ #   sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
+  #  return sortedList
 
-pp.pprint(match_pref(input('name:')))
+#pp.pprint(match_pref(input('name:')))
 
-'''
+
 test_username = "k7lw"
 for user in match_pref(test_username):
     print(user['displayname'])
@@ -79,4 +81,3 @@ for user in match_pref(test_username):
     print(user['gender'])
     print(user['country'])
     print(user['matchability'])
-'''
