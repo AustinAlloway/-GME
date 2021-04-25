@@ -37,10 +37,10 @@ def matchability(user, user3):
     user4match = user3['music_profile'][0]
     #user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
     #matchability = (user4matchability/usermatchability)*100
-
     usermatcha = ((music_pref['danceability']+music_pref['energy']+music_pref['valence'])*100)/3 
     usermatcha2 = ((user4match['danceability']+user4match['energy']+user4match['valence'])*100)/3
-    matchaDiff = (100 - ((usermatcha - usermatcha2)/((usermatcha + usermatcha2)/2) * 100))
+    matchaDiff = (100 - abs(((usermatcha - usermatcha2)/((usermatcha + usermatcha2)/2) * 100)))
+    print(matchaDiff)
     return matchaDiff
 
 def musicpref(agematch, user):
@@ -70,9 +70,8 @@ def musicpref(agematch, user):
  #   sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
   #  return sortedList
 
-#pp.pprint(match_pref(input('name:')))
-
-
+match_pref('k7lw')
+'''
 test_username = "k7lw"
 for user in match_pref(test_username):
     print(user['displayname'])
@@ -81,3 +80,4 @@ for user in match_pref(test_username):
     print(user['gender'])
     print(user['country'])
     print(user['matchability'])
+'''
