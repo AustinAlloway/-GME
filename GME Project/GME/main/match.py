@@ -6,8 +6,7 @@ def match_pref(username_in_session):
     user = mongo.find_user(username_in_session)
     arraylist_gender_matches = genderfind(user)
     agematch = agefind(arraylist_gender_matches, user)
-    finalmatch = musicpref(agematch,user)
-    return sort_matches(finalmatch)
+    return musicpref(agematch, user)
 
 
 def genderfind(user):
@@ -34,11 +33,15 @@ def agefind(arraylist_gender_matches, user):
 
 def matchability(user, user3):
     music_pref = user['music_profile'][0]
-    usermatchability = (music_pref['danceability']+music_pref['energy']+music_pref['valence'])/3
+    #usermatchability = (music_pref['danceability']+music_pref['energy']+music_pref['valence'])/3
     user4match = user3['music_profile'][0]
-    user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
-    matchability = (user4matchability/usermatchability)*100
-    return matchability
+    #user4matchability = (user4match['danceability']+user4match['energy']+user4match['valence'])/3
+    #matchability = (user4matchability/usermatchability)*100
+
+    usermatcha = ((music_pref['danceability']+music_pref['energy']+music_pref['valence'])*100)/3 
+    usermatcha2 = ((user4match['danceability']+user4match['energy']+user4match['valence'])*100)/3
+    matchaDiff = (100 - ((usermatcha - usermatcha2)/((usermatcha + usermatcha2)/2) * 100))
+    return matchaDiff
 
 def musicpref(agematch, user):
     music_pref = user['music_profile'][0]
@@ -59,7 +62,7 @@ def musicpref(agematch, user):
                     finalMatches.append(user3)
 
 
-    return finalMatches
+    return sort_matches(finalMatches)
 
 def sort_matches (matchList):
     sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
