@@ -1,5 +1,5 @@
 #Match Algo
-import mongo
+from . import mongo
 import pprint as pp
 
 def match_pref(username_in_session):
@@ -40,8 +40,14 @@ def matchability(user, user3):
     usermatcha = ((music_pref['danceability']+music_pref['energy']+music_pref['valence'])*100)/3 
     usermatcha2 = ((user4match['danceability']+user4match['energy']+user4match['valence'])*100)/3
     matchaDiff = (100 - abs(((usermatcha - usermatcha2)/((usermatcha + usermatcha2)/2) * 100)))
-    print(matchaDiff)
     return matchaDiff
+
+
+def sort_matches(matchList):
+    sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
+    return sortedList
+
+
 
 def musicpref(agematch, user):
     music_pref = user['music_profile'][0]
@@ -58,19 +64,14 @@ def musicpref(agematch, user):
                 and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
 
                     matchpercent = matchability(user, user3)
-                    user3['matchability']=matchpercent
+                    user3['matchability']= matchpercent
                     #mongo.set_keys_value(user3, 'matchability', matchpercent)
                     finalMatches.append(user3)
 
 
-    return finalMatches
-    #return sort_matches(finalMatches)
+    #return finalMatches
+    return sort_matches(finalMatches)
 
-#def sort_matches(matchList):
- #   sortedList = sorted(matchList, reverse=True, key = lambda match: match['matchability'])
-  #  return sortedList
-
-match_pref('k7lw')
 '''
 test_username = "k7lw"
 for user in match_pref(test_username):
