@@ -64,7 +64,7 @@ def musicpref(agematch, user):
                 and float(music_pref['valence']) > float(musicpref_of_user3['valence']) * 0.7):
 
                     matchpercent = matchability(user, user3)
-                    user3['matchability']= matchpercent
+                    user3['matchability']= str(matchpercent)[0:4]
                     #mongo.set_keys_value(user3, 'matchability', matchpercent)
                     finalMatches.append(user3)
 
