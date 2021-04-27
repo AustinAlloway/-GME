@@ -1,15 +1,6 @@
 import mongo
 from mongo import *
 
-def menu():
-    print("_____________________________________________________________________")
-    print("1. Get matches in age range")
-    print("2. Get music profile values")
-    print("3. Get favorite users")
-    print("4. Get match preferences")
-    print("5. Check user exist")
-    print("6. Find user")   
-
 #####################################################################################
 #  This is                                                                          #
 #                  Just For                                                         #
@@ -20,6 +11,14 @@ def menu():
 ## No arguments prints only successful or failed connection to database
 ## example terminal command: $ python3 mongo.py 1
 
+def menu():
+    print("_____________________________________________________________________")
+    print("1. Get matches in age range")
+    print("2. Get music profile values")
+    print("3. Get favorite users")
+    print("4. Get match preferences")
+    print("5. Check user exist")
+    print("6. Find user")   
 
 if len(sys.argv) > 1:  
     #matches_age_range
@@ -57,11 +56,12 @@ if len(sys.argv) > 1:
         pp.pprint(mongo.find_user(input("Enter username: ")))
         menu()
 
-    #favorite users
+    #fixes profile pics for mock users
     if sys.argv[1] == '7':
         pp.pprint(mongo.randomize_all_profile_pics())
         menu()
 
+    #fixes music attribute data structure 
     if sys.argv[1] == '8':
         pp.pprint(mongo.musicAttributeEditor())
         menu()
