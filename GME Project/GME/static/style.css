@@ -78,13 +78,26 @@ body{
   height: 50px;
 }
 #match_list_group{
-    max-height: 800px;
-    width: 600px;
-    margin-bottom: 10px;
-    overflow:scroll;
+  margin-right: 30px;
+  max-height: 800px;
+  width: 600px;
+  margin-bottom: 10px;
+  overflow-y:scroll;
 }
 #fav_list_group{
-  max-height: 300px;
+  margin-left: 30px;
+  max-height: 800px;
+  width: 600px;
   margin-bottom: 10px;
-  overflow:scroll;
+  overflow-y:scroll;
+}
+#match_page_col{
+  border-radius: 20px;
+  margin: 30px;
+  padding:10px;
+  background: rgba(0,0,0,0.5);
+}
+#match_page_col h3{
+  color:white;
+
 }
