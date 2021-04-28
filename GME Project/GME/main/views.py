@@ -11,7 +11,10 @@ from . import mongo as m
 from . import email_match as email
 from . import match as match
 
-authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767','af8jd8mix7th4gk3cp6xqqo5a']
+#list of users allowed to gain access for developement page
+authorized_users = ['k7lw','nitbaba','arcanebelal','newburyrn','12151060767']
+
+#list of default profile pictures to choose from in profile settings
 stock_profile_pics = [
     "https://data.whicdn.com/images/347068182/original.jpg?t=1595858693",
     "https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=428&q=80",
@@ -82,12 +85,16 @@ def login(request):
 def log_auth(request):
     oauth_dict = sp.oauth_access_token(request.GET['code'], "http://localhost:8000/log_auth/")
     sp_json = sp.get_user_info(oauth_dict['access_token'])
+    #creates empty profile to be filled from wither the database or as a new user
     request.session['profile'] = {}
+    #if the user exists populate the profile in the session
     if (m.check_username(sp_json['id'])):
         m.set_access_token(sp_json['id'],oauth_dict['access_token'])
         m.set_refresh_token(sp_json['id'],oauth_dict['refresh_token'])
         load_profile(request,m.find_user(sp_json['id']))
+    #if not create the profile in the database
     else:
+        #if users spotify account doesnt have an image set one for them
         if (len(sp_json['images']) == 0):
             sp_json['images'] = [{'url': "https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-download-logo-30.png"}]
         profile_json = m.profile_formatter(username = sp_json['id'],
@@ -110,6 +117,7 @@ def log_auth(request):
         music_profile=[sp.get_music_profile_spotify(sp.get_top_track_list(oauth_dict['access_token']), oauth_dict['access_token'])],
         )
         m.add_user(profile_json)
+        #populates the session data with the users profile
         load_profile(request,profile_json=profile_json)
         request.session['profile']['access_token'] = oauth_dict['access_token']
         request.session['profile']['refresh_token'] = oauth_dict['refresh_token']
@@ -193,6 +201,10 @@ def profile_update(request):
     else:
         return render(request, 'home.html')
 
+###################################################################################################
+# Request Type: GET                                                                               #
+# Route Explination: Shows list of profiles that are connected to the database                    #
+###################################################################################################
 
 
 def development_page(request):
@@ -204,6 +216,10 @@ def development_page(request):
     else:
         return render(request, 'unauthorized.html')
 
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: redirects to the clicked on users profile page                               #
+###################################################################################################
 
 def development_page_post(request, username):
     if request.method == 'POST':
@@ -212,6 +228,11 @@ def development_page_post(request, username):
             return render(request, 'profile.html', {'user_json':user_json})
         else:
             return render(request, 'unauthorized.html')
+
+###################################################################################################
+# Request Type: Get                                                                               #
+# Route Explination: Shows the matchmaking page for the use rin the current session               #
+###################################################################################################
 
 def match_making(request):
     if ('profile' in request.session):
@@ -225,6 +246,12 @@ def match_making(request):
     else:
         return render(request, 'home.html')
 
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: requests a match via email through the email module                          #
+###################################################################################################
+
+
 def request_match(request):
     if request.method == 'POST':
         if ('profile' in request.session):
@@ -235,6 +262,12 @@ def request_match(request):
             return render(request, 'home.html')
     else:
         return redirect(match_making)
+
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: adds the selected profile to the session users favorite user list            #
+###################################################################################################
+
 
 def follow_match(request):
     if request.method == 'POST':
@@ -249,6 +282,11 @@ def follow_match(request):
             return render(request, 'home.html')
     else:
         return redirect(match_making)
+
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: removes the selected profile to the session users favorite user list            #
+###################################################################################################
 
 def unfavorite_user(request):
     if request.method == 'POST':
@@ -265,6 +303,11 @@ def unfavorite_user(request):
         return redirect(match_making)
 
 
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: changes the href url for the users profile picture                           #
+###################################################################################################
+
 def update_profile_pic(request):
     if request.method == 'POST':
         if ('profile' in request.session):
@@ -272,6 +315,11 @@ def update_profile_pic(request):
             m.set_profile_pic(request.session['profile']['username'],profile_href)
     return redirect('/profile/' + request.session['profile']['username'])
 
+
+###################################################################################################
+# Request Type: POST                                                                              #
+# Route Explination: restores the users profile pic to the one they have on spotify               #
+###################################################################################################
     
 def restore_profile_pic(request):
     if request.method == 'POST':

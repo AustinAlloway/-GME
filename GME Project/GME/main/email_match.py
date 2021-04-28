@@ -1,4 +1,10 @@
 import smtplib
+
+#####################################################################################
+# Param: email to send match message to, session user display name and email        #
+# Function: Send email to the matched user specified by params                      #
+# RETURNS: True if the email was sent and False if an error occurred                #
+#####################################################################################
 def sendemail(to_email,user_displayname,user_email):
     try:
         password = "Diamondh4nd$"
