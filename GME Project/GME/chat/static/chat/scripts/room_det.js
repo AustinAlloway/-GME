@@ -7,7 +7,7 @@ weekday[0] = "sun";
 weekday[1] = "mon";
 weekday[2] = "tues";
 weekday[3] = "wed";
-weekday[4] = "thur";
+weekday[4] = "thurs";
 weekday[5] = "fri";
 weekday[6] = "sat";
 
